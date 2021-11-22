@@ -120,9 +120,9 @@ namespace lsp
         {
         }
 
-        void limiter::init(plug::IWrapper *wrapper)
+        void limiter::init(plug::IWrapper *wrapper, plug::IPort **ports)
         {
-            plug::Module::init(wrapper);
+            plug::Module::init(wrapper, ports);
 
             // Allocate channels
             vChannels       = new channel_t[nChannels];
@@ -202,71 +202,71 @@ namespace lsp
             lsp_trace("Binding audio ports");
             for (size_t i=0; i<nChannels; ++i)
             {
-                TRACE_PORT(vPorts[port_id]);
-                vChannels[i].pIn        = vPorts[port_id++];
+                TRACE_PORT(ports[port_id]);
+                vChannels[i].pIn        = ports[port_id++];
             }
             for (size_t i=0; i<nChannels; ++i)
             {
-                TRACE_PORT(vPorts[port_id]);
-                vChannels[i].pOut       = vPorts[port_id++];
+                TRACE_PORT(ports[port_id]);
+                vChannels[i].pOut       = ports[port_id++];
             }
             if (bSidechain)
             {
                 for (size_t i=0; i<nChannels; ++i)
                 {
-                    TRACE_PORT(vPorts[port_id]);
-                    vChannels[i].pSc        = vPorts[port_id++];
+                    TRACE_PORT(ports[port_id]);
+                    vChannels[i].pSc        = ports[port_id++];
                 }
             }
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            TRACE_PORT(vPorts[port_id]);
-            pBypass         = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pInGain         = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pOutGain        = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pPreamp         = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pAlrOn          = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pAlrAttack      = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pAlrRelease     = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pMode           = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pThresh         = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pKnee           = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pBoost          = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pLookahead      = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pAttack         = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pRelease        = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pOversampling   = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pDithering      = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pPause          = vPorts[port_id++];
-            TRACE_PORT(vPorts[port_id]);
-            pClear          = vPorts[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pBypass         = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pInGain         = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pOutGain        = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pPreamp         = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pAlrOn          = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pAlrAttack      = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pAlrRelease     = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pMode           = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pThresh         = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pKnee           = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pBoost          = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pLookahead      = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pAttack         = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pRelease        = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pOversampling   = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pDithering      = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pPause          = ports[port_id++];
+            TRACE_PORT(ports[port_id]);
+            pClear          = ports[port_id++];
 
             if (nChannels > 1)
             {
-                TRACE_PORT(vPorts[port_id]);
-                pStereoLink     = vPorts[port_id++];
+                TRACE_PORT(ports[port_id]);
+                pStereoLink     = ports[port_id++];
             }
             if (bSidechain)
             {
-                TRACE_PORT(vPorts[port_id]);
-                pExtSc          = vPorts[port_id++];
+                TRACE_PORT(ports[port_id]);
+                pExtSc          = ports[port_id++];
             }
 
             // Bind history ports for each channel
@@ -278,22 +278,22 @@ namespace lsp
                 // Visibility ports
                 for (size_t j=0; j<G_TOTAL; ++j)
                 {
-                    TRACE_PORT(vPorts[port_id]);
-                    c->pVisible[j]  = vPorts[port_id++];
+                    TRACE_PORT(ports[port_id]);
+                    c->pVisible[j]  = ports[port_id++];
                 }
 
                 // Metering ports
                 for (size_t j=0; j<G_TOTAL; ++j)
                 {
-                    TRACE_PORT(vPorts[port_id]);
-                    c->pMeter[j]    = vPorts[port_id++];
+                    TRACE_PORT(ports[port_id]);
+                    c->pMeter[j]    = ports[port_id++];
                 }
 
                 // Graph ports
                 for (size_t j=0; j<G_TOTAL; ++j)
                 {
-                    TRACE_PORT(vPorts[port_id]);
-                    c->pGraph[j]    = vPorts[port_id++];
+                    TRACE_PORT(ports[port_id]);
+                    c->pGraph[j]    = ports[port_id++];
                 }
             }
 
