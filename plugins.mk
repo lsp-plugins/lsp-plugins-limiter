@@ -18,13 +18,6 @@
 # along with lsp-plugins-limiter.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Package version
-ARTIFACT_ID                 = LSP_PLUGINS_LIMITER
-ARTIFACT_NAME               = lsp-plugins-limiter
-ARTIFACT_TYPE               = plug
-ARTIFACT_DESC               = LSP Limiter Plugin Series
-ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.3-devel
-
-
-
+# Variables that describe dependencies
+PLUGIN_DEPENDENCIES     = LSP_PLUGINS_LIMITER
+PLUGIN_PACKAGE_NAME     = lsp-plugins
