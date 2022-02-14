@@ -197,6 +197,15 @@ namespace lsp
             PORTS_END
         };
 
+        const meta::bundle_t limiter_bundle =
+        {
+            "limiter",
+            "Limiter",
+            B_DYNAMICS,
+            "laExcuCMDY4",
+            "This plugin implements a limiter with flexible configuration. In most cases\nit acts as a brick-wall limiter but there are several settings for which is\nacts as an compressor with extreme settings, so the output signal may exceed\nthe limiter's threshold. It prevents input signal from raising over the\nspecified Threshold."
+        };
+
         // Limiter
         const meta::plugin_t  limiter_mono =
         {
@@ -216,7 +225,8 @@ namespace lsp
             limiter_mono_ports,
             "dynamics/limiter/single/mono.xml",
             NULL,
-            mono_plugin_port_groups
+            mono_plugin_port_groups,
+            &limiter_bundle
         };
 
         const meta::plugin_t  limiter_stereo =
@@ -237,7 +247,8 @@ namespace lsp
             limiter_stereo_ports,
             "dynamics/limiter/single/stereo.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &limiter_bundle
         };
 
         const meta::plugin_t  sc_limiter_mono =
@@ -258,7 +269,8 @@ namespace lsp
             sc_limiter_mono_ports,
             "dynamics/limiter/single/mono.xml",
             NULL,
-            mono_plugin_sidechain_port_groups
+            mono_plugin_sidechain_port_groups,
+            &limiter_bundle
         };
 
         const meta::plugin_t  sc_limiter_stereo =
@@ -279,7 +291,8 @@ namespace lsp
             sc_limiter_stereo_ports,
             "dynamics/limiter/single/stereo.xml",
             NULL,
-            stereo_plugin_sidechain_port_groups
+            stereo_plugin_sidechain_port_groups,
+            &limiter_bundle
         };
     } // namespace meta
 } // namespace lsp
