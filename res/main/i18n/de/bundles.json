@@ -1,0 +1,7 @@
+{
+	"limiter": {
+		"name": "Limiter",
+		"description": "Dieses Plugin implementiert einen Limiter mit vielseitigen Konfigurationsmöglichkeiten. \nIn den meisten Fällen wirkt er als Brick-Wall-Limiter aber es gibt verschiedene Einstellungen, die ihn auch als einen harten Kompressor nutzbar machen, das Ausgangssignal also den Schwellenwert des Limiters übersteigen kann."
+	}
+}
+
