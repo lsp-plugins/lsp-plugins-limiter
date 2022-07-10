@@ -32,49 +32,49 @@ namespace lsp
     {
         struct limiter_metadata
         {
-            static const float  HISTORY_TIME            = 4.0f;     // Amount of time to display history [s]
-            static const size_t HISTORY_MESH_SIZE       = 560;      // 420 dots for history
-            static const size_t OVERSAMPLING_MAX        = 8;        // Maximum 8x oversampling
+            static constexpr float  HISTORY_TIME            = 4.0f;     // Amount of time to display history [s]
+            static constexpr size_t HISTORY_MESH_SIZE       = 560;      // 420 dots for history
+            static constexpr size_t OVERSAMPLING_MAX        = 8;        // Maximum 8x oversampling
 
-            static const float  LOOKAHEAD_MIN           = 0.1f;     // No lookahead [ms]
-            static const float  LOOKAHEAD_MAX           = 20.0f;    // Maximum Lookahead [ms]
-            static const float  LOOKAHEAD_DFL           = 5.0f;     // Default Lookahead [ms]
-            static const float  LOOKAHEAD_STEP          = 0.005f;   // Lookahead step
+            static constexpr float  LOOKAHEAD_MIN           = 0.1f;     // No lookahead [ms]
+            static constexpr float  LOOKAHEAD_MAX           = 20.0f;    // Maximum Lookahead [ms]
+            static constexpr float  LOOKAHEAD_DFL           = 5.0f;     // Default Lookahead [ms]
+            static constexpr float  LOOKAHEAD_STEP          = 0.005f;   // Lookahead step
 
-            static const float  ATTACK_TIME_MIN         = 0.25f;
-            static const float  ATTACK_TIME_MAX         = 20.0f;
-            static const float  ATTACK_TIME_DFL         = 5.0f;
-            static const float  ATTACK_TIME_STEP        = 0.0025f;
+            static constexpr float  ATTACK_TIME_MIN         = 0.25f;
+            static constexpr float  ATTACK_TIME_MAX         = 20.0f;
+            static constexpr float  ATTACK_TIME_DFL         = 5.0f;
+            static constexpr float  ATTACK_TIME_STEP        = 0.0025f;
 
-            static const float  RELEASE_TIME_MIN        = 0.25f;
-            static const float  RELEASE_TIME_MAX        = 20.0f;
-            static const float  RELEASE_TIME_DFL        = 5.0f;
-            static const float  RELEASE_TIME_STEP       = 0.0025f;
+            static constexpr float  RELEASE_TIME_MIN        = 0.25f;
+            static constexpr float  RELEASE_TIME_MAX        = 20.0f;
+            static constexpr float  RELEASE_TIME_DFL        = 5.0f;
+            static constexpr float  RELEASE_TIME_STEP       = 0.0025f;
 
-            static const float  ALR_ATTACK_TIME_MIN     = 0.1f;
-            static const float  ALR_ATTACK_TIME_MAX     = 200.0f;
-            static const float  ALR_ATTACK_TIME_DFL     = 5.0f;
-            static const float  ALR_ATTACK_TIME_STEP    = 0.0025f;
+            static constexpr float  ALR_ATTACK_TIME_MIN     = 0.1f;
+            static constexpr float  ALR_ATTACK_TIME_MAX     = 200.0f;
+            static constexpr float  ALR_ATTACK_TIME_DFL     = 5.0f;
+            static constexpr float  ALR_ATTACK_TIME_STEP    = 0.0025f;
 
-            static const float  ALR_RELEASE_TIME_MIN    = 10.0f;
-            static const float  ALR_RELEASE_TIME_MAX    = 1000.0f;
-            static const float  ALR_RELEASE_TIME_DFL    = 50.0f;
-            static const float  ALR_RELEASE_TIME_STEP   = 0.0025f;
+            static constexpr float  ALR_RELEASE_TIME_MIN    = 10.0f;
+            static constexpr float  ALR_RELEASE_TIME_MAX    = 1000.0f;
+            static constexpr float  ALR_RELEASE_TIME_DFL    = 50.0f;
+            static constexpr float  ALR_RELEASE_TIME_STEP   = 0.0025f;
 
-            static const float  THRESHOLD_MIN           = GAIN_AMP_M_48_DB;
-            static const float  THRESHOLD_MAX           = GAIN_AMP_0_DB;
-            static const float  THRESHOLD_DFL           = GAIN_AMP_0_DB;
-            static const float  THRESHOLD_STEP          = 0.01f;
+            static constexpr float  THRESHOLD_MIN           = GAIN_AMP_M_48_DB;
+            static constexpr float  THRESHOLD_MAX           = GAIN_AMP_0_DB;
+            static constexpr float  THRESHOLD_DFL           = GAIN_AMP_0_DB;
+            static constexpr float  THRESHOLD_STEP          = 0.01f;
 
-            static const float  KNEE_MIN                = GAIN_AMP_M_12_DB;
-            static const float  KNEE_MAX                = GAIN_AMP_P_12_DB;
-            static const float  KNEE_DFL                = GAIN_AMP_0_DB;
-            static const float  KNEE_STEP               = 0.01f;
+            static constexpr float  KNEE_MIN                = GAIN_AMP_M_12_DB;
+            static constexpr float  KNEE_MAX                = GAIN_AMP_P_12_DB;
+            static constexpr float  KNEE_DFL                = GAIN_AMP_0_DB;
+            static constexpr float  KNEE_STEP               = 0.01f;
 
-            static const float  LINKING_MIN             = 0;
-            static const float  LINKING_MAX             = 100.0f;
-            static const float  LINKING_DFL             = 100.0f;
-            static const float  LINKING_STEP            = 0.01f;
+            static constexpr float  LINKING_MIN             = 0;
+            static constexpr float  LINKING_MAX             = 100.0f;
+            static constexpr float  LINKING_DFL             = 100.0f;
+            static constexpr float  LINKING_STEP            = 0.01f;
 
             enum oversampling_mode_t
             {
