@@ -572,7 +572,7 @@ namespace lsp
             for (size_t nsamples = samples; nsamples > 0; )
             {
                 // Perform oversampling of signal and sidechain
-                size_t to_do    = (nsamples > buf_size) ? buf_size : nsamples;
+                size_t to_do    = lsp_min(buf_size, nsamples);
                 size_t to_doxn  = to_do * times;
 
                 for (size_t i=0; i<nChannels; ++i)
