@@ -40,7 +40,9 @@ namespace lsp
     {
         //-------------------------------------------------------------------------
         // Limiter
-        static const int limiter_classes[] = { C_LIMITER, -1 };
+        static const int plugin_classes[]           = { C_LIMITER, -1 };
+        static const int clap_features_mono[]       = { CF_AUDIO_EFFECT, CF_LIMITER, CF_MONO, -1 };
+        static const int clap_features_stereo[]     = { CF_AUDIO_EFFECT, CF_LIMITER, CF_STEREO, -1 };
 
         static port_item_t limiter_oper_modes[] =
         {
@@ -219,8 +221,10 @@ namespace lsp
             "jz5z",
             LSP_LADSPA_LIMITER_BASE + 0,
             LSP_LADSPA_URI("limiter_mono"),
+            LSP_CLAP_URI("limiter_mono"),
             LSP_PLUGINS_LIMITER_VERSION,
-            limiter_classes,
+            plugin_classes,
+            clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             limiter_mono_ports,
             "dynamics/limiter/single/mono.xml",
@@ -241,8 +245,10 @@ namespace lsp
             "rfuc",
             LSP_LADSPA_LIMITER_BASE + 1,
             LSP_LADSPA_URI("limiter_stereo"),
+            LSP_CLAP_URI("limiter_stereo"),
             LSP_PLUGINS_LIMITER_VERSION,
-            limiter_classes,
+            plugin_classes,
+            clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             limiter_stereo_ports,
             "dynamics/limiter/single/stereo.xml",
@@ -263,8 +269,10 @@ namespace lsp
             "kyzu",
             LSP_LADSPA_LIMITER_BASE + 2,
             LSP_LADSPA_URI("sc_limiter_mono"),
+            LSP_CLAP_URI("sc_limiter_mono"),
             LSP_PLUGINS_LIMITER_VERSION,
-            limiter_classes,
+            plugin_classes,
+            clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_limiter_mono_ports,
             "dynamics/limiter/single/mono.xml",
@@ -285,8 +293,10 @@ namespace lsp
             "zwf7",
             LSP_LADSPA_LIMITER_BASE + 3,
             LSP_LADSPA_URI("sc_limiter_stereo"),
+            LSP_CLAP_URI("sc_limiter_stereo"),
             LSP_PLUGINS_LIMITER_VERSION,
-            limiter_classes,
+            plugin_classes,
+            clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_limiter_stereo_ports,
             "dynamics/limiter/single/stereo.xml",
@@ -294,5 +304,5 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &limiter_bundle
         };
-    } // namespace meta
-} // namespace lsp
+    } /* namespace meta */
+} /* namespace lsp */
