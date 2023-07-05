@@ -75,16 +75,26 @@ words: the more work should be done, the more CPU resources will be used. Beware
 	<li><b>O/S</b> - oversampling mode:</li>
 	<ul>
 		<li><b>None</b> - oversampling is not used.</li>
-		<li><b>Half 2x(2L)</b>, <b>Half 2x(3L)</b> - 2x Lanczos oversampling of Sidechain signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Half 3x(2L)</b>, <b>Half 3x(3L)</b> - 3x Lanczos oversampling of Sidechain signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Half 4x(2L)</b>, <b>Half 4x(3L)</b> - 4x Lanczos oversampling of Sidechain signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Half 6x(2L)</b>, <b>Half 6x(3L)</b> - 6x Lanczos oversampling of Sidechain signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Half 8x(2L)</b>, <b>Half 8x(3L)</b> - 8x Lanczos oversampling of Sidechain signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Full 2x(2L)</b>, <b>Full 2x(3L)</b> - 2x Lanczos oversampling of Sidechain and Input signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Full 3x(2L)</b>, <b>Full 3x(3L)</b> - 3x Lanczos oversampling of Sidechain and Input signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Full 4x(2L)</b>, <b>Full 4x(3L)</b> - 4x Lanczos oversampling of Sidechain and Input signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Full 6x(2L)</b>, <b>Full 6x(3L)</b> - 6x Lanczos oversampling of Sidechain and Input signal with 2 or 3 lobes (L) in the kernel.</li>
-		<li><b>Full 8x(2L)</b>, <b>Full 8x(3L)</b> - 8x Lanczos oversampling of Sidechain and Input signal with 2 or 3 lobes (L) in the kernel.</li>
+		<li><b>Half 2x/16 bit</b> - 2x Lanczos oversampling of Sidechain signal with 16-bit precision of output samples.</li>
+		<li><b>Half 2x/24 bit</b> - 2x Lanczos oversampling of Sidechain signal with 24-bit precision of output samples.</li>
+		<li><b>Half 3x/16 bit</b> - 3x Lanczos oversampling of Sidechain signal with 16-bit precision of output samples.</li>
+		<li><b>Half 3x/24 bit</b> - 3x Lanczos oversampling of Sidechain signal with 24-bit precision of output samples.</li>
+		<li><b>Half 4x/16 bit</b> - 4x Lanczos oversampling of Sidechain signal with 16-bit precision of output samples.</li>
+		<li><b>Half 4x/24 bit</b> - 4x Lanczos oversampling of Sidechain signal with 24-bit precision of output samples.</li>
+		<li><b>Half 6x/16 bit</b> - 6x Lanczos oversampling of Sidechain signal with 16-bit precision of output samples.</li>
+		<li><b>Half 6x/24 bit</b> - 6x Lanczos oversampling of Sidechain signal with 24-bit precision of output samples.</li>
+		<li><b>Half 8x/16 bit</b> - 8x Lanczos oversampling of Sidechain signal with 16-bit precision of output samples.</li>
+		<li><b>Half 8x/24 bit</b> - 8x Lanczos oversampling of Sidechain signal with 24-bit precision of output samples.</li>
+		<li><b>Full 2x/16 bit</b> - 2x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
+		<li><b>Full 2x/24 bit</b> - 2x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
+		<li><b>Full 3x/16 bit</b> - 3x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
+		<li><b>Full 3x/24 bit</b> - 3x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
+		<li><b>Full 4x/16 bit</b> - 4x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
+		<li><b>Full 4x/24 bit</b> - 4x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
+		<li><b>Full 6x/16 bit</b> - 6x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
+		<li><b>Full 6x/24 bit</b> - 6x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
+		<li><b>Full 8x/16 bit</b> - 8x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
+		<li><b>Full 8x/24 bit</b> - 8x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
 	</ul>
 	<li><b>Dither</b> - allows to enable dithering for the specified sample bitness.</li>
 	<li><b>SC</b> - enables drawing of sidechain input graph and corresponding level meter.</li>

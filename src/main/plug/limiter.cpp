@@ -86,7 +86,6 @@ namespace lsp
             fInGain         = GAIN_AMP_0_DB;
             fOutGain        = GAIN_AMP_0_DB;
             fPreamp         = GAIN_AMP_0_DB;
-            nOversampling   = meta::limiter_metadata::OVS_DEFAULT;
             fStereoLink     = 1.0f;
             pIDisplay       = NULL;
             bUISync         = true;
@@ -188,8 +187,10 @@ namespace lsp
                     return;
 
                 // Initialize limiter with latency compensation gap
-
                 if (!c->sLimit.init(MAX_SAMPLE_RATE * meta::limiter_metadata::OVERSAMPLING_MAX, lk_latency))
+                    return;
+
+                if (!c->sDataDelay.init(dspu::millis_to_samples(MAX_SAMPLE_RATE * meta::limiter_metadata::OVERSAMPLING_MAX, lk_latency) + LIMIT_BUFSIZE))
                     return;
                 if (!c->sDryDelay.init(dspu::millis_to_samples(MAX_SAMPLE_RATE, lk_latency + c->sOver.max_latency())))
                     return;
@@ -374,16 +375,16 @@ namespace lsp
 
             switch (mode)
             {
-                L_KEY(2X2)
-                L_KEY(2X3)
-                L_KEY(3X2)
-                L_KEY(3X3)
-                L_KEY(4X2)
-                L_KEY(4X3)
-                L_KEY(6X2)
-                L_KEY(6X3)
-                L_KEY(8X2)
-                L_KEY(8X3)
+                L_KEY(2X16BIT)
+                L_KEY(2X24BIT)
+                L_KEY(3X16BIT)
+                L_KEY(3X24BIT)
+                L_KEY(4X16BIT)
+                L_KEY(4X24BIT)
+                L_KEY(6X16BIT)
+                L_KEY(6X24BIT)
+                L_KEY(8X16BIT)
+                L_KEY(8X24BIT)
 
                 case meta::limiter_metadata::OVS_NONE:
                 default:
@@ -395,7 +396,7 @@ namespace lsp
 
         bool limiter::get_filtering(size_t mode)
         {
-            return (mode >= meta::limiter_metadata::OVS_FULL_2X2) && (mode <= meta::limiter_metadata::OVS_FULL_8X3);
+            return (mode >= meta::limiter_metadata::OVS_FULL_2X16BIT) && (mode <= meta::limiter_metadata::OVS_FULL_8X24BIT);
         }
 
         dspu::limiter_mode_t limiter::get_limiter_mode(size_t mode)
@@ -508,7 +509,6 @@ namespace lsp
             fPreamp                     = pPreamp->value();
             dspu::limiter_mode_t op_mode= get_limiter_mode(pMode->value());
 
-
             sDither.set_bits(dither);
 
             for (size_t i=0; i<nChannels; ++i)
@@ -533,6 +533,10 @@ namespace lsp
                 // Update lookahead because oversampling adds extra latency
                 float lk_ahead_ch = lk_ahead + dspu::samples_to_millis(fSampleRate, c->sScOver.latency());
 
+                // Cleanup the data delay if limiter's sample rate is going to chane
+                if (c->sLimit.sample_rate() != real_sample_rate)
+                    c->sDataDelay.clear();
+
                 // Update settings for limiter
                 c->sLimit.set_mode(op_mode);
                 c->sLimit.set_sample_rate(real_sample_rate);
@@ -544,6 +548,10 @@ namespace lsp
                 c->sLimit.set_alr(alr_on);
                 c->sLimit.set_alr_attack(alr_attack);
                 c->sLimit.set_alr_release(alr_release);
+                c->sLimit.update_settings();
+
+                // Update the data delay
+                c->sDataDelay.set_delay(c->sLimit.get_latency());
 
                 // Update meters
                 for (size_t j=0; j<G_TOTAL; ++j)
@@ -552,6 +560,9 @@ namespace lsp
                     c->bVisible[j]  = c->pVisible[j]->value() >= 0.5f;
                 }
             }
+
+            // Report latency
+            sync_latency();
         }
 
         void limiter::process(size_t samples)
@@ -615,7 +626,8 @@ namespace lsp
                     c->pMeter[G_SC]->set_value(dsp::max(c->vScBuf, to_doxn));
 
                     // Perform processing by limiter
-                    c->sLimit.process(c->vDataBuf, c->vGainBuf, c->vDataBuf, c->vScBuf, to_doxn);
+                    c->sLimit.process(c->vGainBuf, c->vScBuf, to_doxn);
+                    c->sDataDelay.process(c->vDataBuf, c->vDataBuf, to_doxn);
                 }
 
                 // Perform stereo linking
@@ -715,9 +727,6 @@ namespace lsp
             // Request for redraw
             if (pWrapper != NULL)
                 pWrapper->query_display_draw();
-
-            // Report latency
-            sync_latency();
         }
 
         void limiter::ui_activated()
@@ -882,7 +891,6 @@ namespace lsp
             v->write("fInGain", fInGain);
             v->write("fOutGain", fOutGain);
             v->write("fPreamp", fPreamp);
-            v->write("nOversampling", nOversampling);
             v->write("fStereoLink", fStereoLink);
             v->write("pIDisplay", pIDisplay);
             v->write("bUISync", bUISync);
