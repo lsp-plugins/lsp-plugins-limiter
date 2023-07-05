@@ -848,6 +848,7 @@ namespace lsp
                     v->write_object("sOver", &c->sOver);
                     v->write_object("sScOver", &c->sScOver);
                     v->write_object("sLimit", &c->sLimit);
+                    v->write_object("sDataDelay", &c->sDataDelay);
                     v->write_object("sDryDelay", &c->sDryDelay);
 
                     v->begin_array("sGraph", c->sGraph, G_TOTAL);
