@@ -4,6 +4,7 @@
 
 === 1.0.13 ===
 * Significantly improved precision of oversampling functions.
+* Fixed bug in ALR function which could cause random audio scratches.
 * Updated build scripts and dependencies.
 
 === 1.0.12 ===
