@@ -138,7 +138,6 @@
 			<!-- Limiter setup -->
 			<group text="groups.plug.limiter" ipadding="0">
 				<grid rows="3" cols="8">
-
 					<label text="labels.sc.sc_preamp" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
 					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
 					<label text="labels.sc.lookahead" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
