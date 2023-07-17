@@ -130,7 +130,7 @@ words: the more work should be done, the more CPU resources will be used. Beware
 	<li><b>Attack</b> - the attack time of the limiter. Can not be greater than Lookahead time (greater values are truncated) for some modes.</li>
 	<li><b>Release</b> - the attack time of the limiter. Can not be twice greater than Lookahead time (greater values are truncated) for some modes.</li>
 	<?php if (!$m) {?> 
-	<li><b>Knee</b> - stereo link, the degree of mutual influence between gain reduction of stereo channels</li>
+	<li><b>Stereo link</b> - stereo link, the degree of mutual influence between gain reduction of stereo channels</li>
 	<?php } ?>
 </ul>
 <p><b>'Signal' section:</b></p>
