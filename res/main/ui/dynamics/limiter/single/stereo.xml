@@ -161,33 +161,30 @@
 			<!-- Limiter setup -->
 			<group text="groups.plug.limiter" ipadding="0" >
 				<grid rows="3" cols="10">
-
-						<label text="labels.sc.sc_preamp" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
-						<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-						<label text="labels.sc.lookahead" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
-						<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-						<label text="labels.threshold" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
-						<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-						<ui:with pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true">
+					<label text="labels.sc.sc_preamp" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
+					<label text="labels.sc.lookahead" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
+					<label text="labels.threshold" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
+					<ui:with pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true">
 						<label text="labels.attack"/>
 						<label text="labels.release"/>
-						</ui:with>
-						<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-						<label text="labels.stereo_link" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					</ui:with>
+					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
+					<label text="labels.stereo_link" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
 
+					<hbox fill="false">
+						<knob id="scp"/>
+						<value id="scp" width.min="32" pad.l="4" visibility="ex :extsc"/>
+					</hbox>
 
-
-						<hbox fill="false">
-							<knob id="scp"/>
-							<value id="scp" width.min="32" pad.l="4" visibility="ex :extsc"/>
-						</hbox>
-
-						<knob id="lk" pad.v="4" pad.h="6"/>
-						<hbox fill="false">
-							<knob id="th" scolor="threshold"/>
-							<value id="th" width.min="32" pad.l="4"/>
-						</hbox>
-						<ui:with pad.v="4" pad.h="6">
+					<knob id="lk" pad.v="4" pad.h="6"/>
+					<hbox fill="false">
+						<knob id="th" scolor="threshold"/>
+						<value id="th" width.min="32" pad.l="4"/>
+					</hbox>
+					<ui:with pad.v="4" pad.h="6">
 						<knob id="at" scolor="attack"/>
 						<knob id="rt" scolor="release"/>
 						<knob id="slink" scolor="balance"/>
@@ -198,11 +195,11 @@
 						<value id="scp" visibility="! ex :extsc"/>
 					</hbox>
 					<value id="lk" pad.b="4" pad.h="6"/>
-						<button id="boost" pad.h="6" height="18" width="70" text="labels.boost_" ui:inject="Button_violet_8"/>
-						<ui:with pad.b="4" pad.h="6">
-					<value id="at"/>
-					<value id="rt"/>
-					<value id="slink"/>
+					<button id="boost" pad.h="6" height="18" width="70" text="labels.boost_" ui:inject="Button_violet_8"/>
+					<ui:with pad.b="4" pad.h="6">
+						<value id="at"/>
+						<value id="rt"/>
+						<value id="slink"/>
 					</ui:with>
 				</grid>
 			</group>

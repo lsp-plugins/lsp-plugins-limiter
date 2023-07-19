@@ -61,6 +61,7 @@ namespace lsp
                     dspu::Oversampler   sOver;              // Oversampler object for signal
                     dspu::Oversampler   sScOver;            // Sidechain oversampler object for signal
                     dspu::Limiter       sLimit;             // Limiter
+                    dspu::Delay         sDataDelay;         // Input signal delay
                     dspu::Delay         sDryDelay;          // Dry delay
                     dspu::MeterGraph    sGraph[G_TOTAL];    // Input meter graph
                     dspu::Blink         sBlink;             // Gain blink
@@ -100,7 +101,6 @@ namespace lsp
                 float               fInGain;        // Input gain
                 float               fOutGain;       // Output gain
                 float               fPreamp;        // Sidechain pre-amplification
-                size_t              nOversampling;  // Oversampling
                 float               fStereoLink;    // Stereo linking
                 core::IDBuffer     *pIDisplay;      // Inline display buffer
                 bool                bUISync;        // Synchronize with UI
