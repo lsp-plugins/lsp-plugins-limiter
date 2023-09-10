@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -29,12 +29,17 @@
 
 #define LIMIT_BUFSIZE           8192
 #define LIMIT_BUFMULTIPLE       16
-#define TRACE_PORT(p)           lsp_trace("  port id=%s", (p)->metadata()->id);
 
 namespace lsp
 {
     namespace plugins
     {
+        static plug::IPort *TRACE_PORT(plug::IPort *p)
+        {
+            lsp_trace("  port id=%s", (p)->metadata()->id);
+            return p;
+        }
+
         //-------------------------------------------------------------------------
         // Plugin factory
         typedef struct plugin_settings_t
@@ -118,6 +123,7 @@ namespace lsp
 
         limiter::~limiter()
         {
+            do_destroy();
         }
 
         void limiter::init(plug::IWrapper *wrapper, plug::IPort **ports)
@@ -203,73 +209,42 @@ namespace lsp
             // Bind audio ports
             lsp_trace("Binding audio ports");
             for (size_t i=0; i<nChannels; ++i)
-            {
-                TRACE_PORT(ports[port_id]);
-                vChannels[i].pIn        = ports[port_id++];
-            }
+                vChannels[i].pIn        = TRACE_PORT(ports[port_id++]);
             for (size_t i=0; i<nChannels; ++i)
-            {
-                TRACE_PORT(ports[port_id]);
-                vChannels[i].pOut       = ports[port_id++];
-            }
+                vChannels[i].pOut       = TRACE_PORT(ports[port_id++]);
+
             if (bSidechain)
             {
                 for (size_t i=0; i<nChannels; ++i)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    vChannels[i].pSc        = ports[port_id++];
-                }
+                    vChannels[i].pSc        = TRACE_PORT(ports[port_id++]);
             }
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            TRACE_PORT(ports[port_id]);
-            pBypass         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pInGain         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOutGain        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pPreamp         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pAlrOn          = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pAlrAttack      = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pAlrRelease     = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pMode           = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pThresh         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pKnee           = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pBoost          = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pLookahead      = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pAttack         = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pRelease        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOversampling   = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pDithering      = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pPause          = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pClear          = ports[port_id++];
+            pBypass         = TRACE_PORT(ports[port_id++]);
+            pInGain         = TRACE_PORT(ports[port_id++]);
+            pOutGain        = TRACE_PORT(ports[port_id++]);
+            pPreamp         = TRACE_PORT(ports[port_id++]);
+            pAlrOn          = TRACE_PORT(ports[port_id++]);
+            pAlrAttack      = TRACE_PORT(ports[port_id++]);
+            pAlrRelease     = TRACE_PORT(ports[port_id++]);
+            pMode           = TRACE_PORT(ports[port_id++]);
+            pThresh         = TRACE_PORT(ports[port_id++]);
+            pKnee           = TRACE_PORT(ports[port_id++]);
+            pBoost          = TRACE_PORT(ports[port_id++]);
+            pLookahead      = TRACE_PORT(ports[port_id++]);
+            pAttack         = TRACE_PORT(ports[port_id++]);
+            pRelease        = TRACE_PORT(ports[port_id++]);
+            pOversampling   = TRACE_PORT(ports[port_id++]);
+            pDithering      = TRACE_PORT(ports[port_id++]);
+            pPause          = TRACE_PORT(ports[port_id++]);
+            pClear          = TRACE_PORT(ports[port_id++]);
 
             if (nChannels > 1)
-            {
-                TRACE_PORT(ports[port_id]);
-                pStereoLink     = ports[port_id++];
-            }
+                pStereoLink     = TRACE_PORT(ports[port_id++]);
+
             if (bSidechain)
-            {
-                TRACE_PORT(ports[port_id]);
-                pExtSc          = ports[port_id++];
-            }
+                pExtSc          = TRACE_PORT(ports[port_id++]);
 
             // Bind history ports for each channel
             lsp_trace("Binding history ports");
@@ -279,24 +254,15 @@ namespace lsp
 
                 // Visibility ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    c->pVisible[j]  = ports[port_id++];
-                }
+                    c->pVisible[j]  = TRACE_PORT(ports[port_id++]);
 
                 // Metering ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    c->pMeter[j]    = ports[port_id++];
-                }
+                    c->pMeter[j]    = TRACE_PORT(ports[port_id++]);
 
                 // Graph ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    c->pGraph[j]    = ports[port_id++];
-                }
+                    c->pGraph[j]    = TRACE_PORT(ports[port_id++]);
             }
 
             float delta     = meta::limiter_metadata::HISTORY_TIME / (meta::limiter_metadata::HISTORY_MESH_SIZE - 1);
@@ -308,6 +274,12 @@ namespace lsp
         }
 
         void limiter::destroy()
+        {
+            plug::Module::destroy();
+            do_destroy();
+        }
+
+        void limiter::do_destroy()
         {
             if (pData != NULL)
             {
@@ -921,7 +893,7 @@ namespace lsp
             v->write("pStereoLink", pStereoLink);
             v->write("pData", pData);
         }
-    } // namespace plugins
-} // namespace lsp
+    } /* namespace plugins */
+} /* namespace lsp */
 
 
