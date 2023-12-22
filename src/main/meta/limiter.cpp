@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_LIMITER_VERSION_MAJOR       1
 #define LSP_PLUGINS_LIMITER_VERSION_MINOR       0
-#define LSP_PLUGINS_LIMITER_VERSION_MICRO       17
+#define LSP_PLUGINS_LIMITER_VERSION_MICRO       18
 
 #define LSP_PLUGINS_LIMITER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -213,6 +213,7 @@ namespace lsp
         {
             "Begrenzer Mono",
             "Limiter Mono",
+            "Limiter Mono",
             "B1M",
             &developers::v_sadovnikov,
             "limiter_mono",
@@ -236,6 +237,7 @@ namespace lsp
         const meta::plugin_t  limiter_stereo =
         {
             "Begrenzer Stereo",
+            "Limiter Stereo",
             "Limiter Stereo",
             "B1S",
             &developers::v_sadovnikov,
@@ -261,6 +263,7 @@ namespace lsp
         {
             "Sidechain-Begrenzer Mono",
             "Sidechain Limiter Mono",
+            "SC Limiter Mono",
             "SCB1M",
             &developers::v_sadovnikov,
             "sc_limiter_mono",
@@ -285,6 +288,7 @@ namespace lsp
         {
             "Sidechain-Begrenzer Stereo",
             "Sidechain Limiter Stereo",
+            "SC Limiter Stereo",
             "SCB1S",
             &developers::v_sadovnikov,
             "sc_limiter_stereo",
