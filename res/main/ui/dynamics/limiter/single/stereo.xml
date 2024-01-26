@@ -39,7 +39,7 @@
 						<mesh id="grg_r" width="2" color="bright_blue" visibility=":grgv_r"/>
 
 						<!-- Markers -->
-						<marker id="th" editable="true" width="2" pointer="vsize" color="threshold" ox="1" oy="0"/>
+						<marker id="th" editable="true" width="2" pointer="vsize" color="threshold" hcolor="threshold_hover" ox="1" oy="0"/>
 
 						<!-- Text -->
 						<ui:attributes x="4" halign="1" valign="-1">
@@ -113,7 +113,7 @@
 
 				<!-- Gain signal meter -->
 				<ledmeter vexpand="true" height.min="256" angle="1">
-					<ledchannel id="grlm_l" min="-48 db" max="0 db" log="true" type="peak" balance="0 db" balance.visibility="true" activity=":grgv_r" value.color="blue"/>
+					<ledchannel id="grlm_l" min="-48 db" max="0 db" log="true" type="peak" balance="0 db" balance.visibility="true" activity=":grgv_l" value.color="blue"/>
 					<ledchannel id="grlm_r" min="-48 db" max="0 db" log="true" type="peak" balance="0 db" balance.visibility="true" activity=":grgv_r" value.color="blue"/>
 				</ledmeter>
 
