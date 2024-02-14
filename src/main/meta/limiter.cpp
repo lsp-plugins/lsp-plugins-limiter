@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -220,6 +220,8 @@ namespace lsp
             LSP_LV2_URI("limiter_mono"),
             LSP_LV2UI_URI("limiter_mono"),
             "jz5z",
+            LSP_VST3_UID("b1m     jz5z"),
+            LSP_VST3UI_UID("b1m     jz5z"),
             LSP_LADSPA_LIMITER_BASE + 0,
             LSP_LADSPA_URI("limiter_mono"),
             LSP_CLAP_URI("limiter_mono"),
@@ -245,6 +247,8 @@ namespace lsp
             LSP_LV2_URI("limiter_stereo"),
             LSP_LV2UI_URI("limiter_stereo"),
             "rfuc",
+            LSP_VST3_UID("b1s     rfuc"),
+            LSP_VST3UI_UID("b1s     rfuc"),
             LSP_LADSPA_LIMITER_BASE + 1,
             LSP_LADSPA_URI("limiter_stereo"),
             LSP_CLAP_URI("limiter_stereo"),
@@ -270,6 +274,8 @@ namespace lsp
             LSP_LV2_URI("sc_limiter_mono"),
             LSP_LV2UI_URI("sc_limiter_mono"),
             "kyzu",
+            LSP_VST3_UID("scb1m   kyzu"),
+            LSP_VST3UI_UID("scb1m   kyzu"),
             LSP_LADSPA_LIMITER_BASE + 2,
             LSP_LADSPA_URI("sc_limiter_mono"),
             LSP_CLAP_URI("sc_limiter_mono"),
@@ -295,6 +301,8 @@ namespace lsp
             LSP_LV2_URI("sc_limiter_stereo"),
             LSP_LV2UI_URI("sc_limiter_stereo"),
             "zwf7",
+            LSP_VST3_UID("scb1s   zwf7"),
+            LSP_VST3UI_UID("scb1s   zwf7"),
             LSP_LADSPA_LIMITER_BASE + 3,
             LSP_LADSPA_URI("sc_limiter_stereo"),
             LSP_CLAP_URI("sc_limiter_stereo"),
