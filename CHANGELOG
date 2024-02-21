@@ -4,6 +4,7 @@
 
 === 1.0.19 ===
 * Updated build scripts and dependencies.
+* Added Fill color for input and gain reduction.
 
 === 1.0.18 ===
 * Threshold markers are now editable.
