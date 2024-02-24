@@ -156,7 +156,7 @@ namespace lsp
             MESH("ig" id, "Input graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 2), \
             MESH("og" id, "Output graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
             MESH("scg" id, "Sidechain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
-            MESH("grg" id, "Gain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 2)
+            MESH("grg" id, "Gain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 4)
 
         #define LIMIT_METERS_MONO       LIMIT_METERS("", "")
         #define LIMIT_METERS_STEREO     LIMIT_METERS("_l", " Left"), LIMIT_METERS("_r", " Right")

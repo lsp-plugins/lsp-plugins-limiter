@@ -685,22 +685,43 @@ namespace lsp
                         if ((mesh != NULL) && (mesh->isEmpty()))
                         {
                             // Fill mesh with new values
-                            if ((j == G_IN) || (j == G_GAIN))
+                            if (j == G_IN)
                             {
                                 float *x = mesh->pvData[0];
                                 float *y = mesh->pvData[1];
-                                float y_zero = (j == G_IN) ? 0.0f : 1.0f;
 
                                 dsp::copy(&x[1], vTime, meta::limiter_metadata::HISTORY_MESH_SIZE);
                                 dsp::copy(&y[1], c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
 
                                 x[0] = x[1];
-                                y[0] = y_zero;
+                                y[0] = 0.0f;
 
                                 x[meta::limiter_metadata::HISTORY_MESH_SIZE+1] = x[meta::limiter_metadata::HISTORY_MESH_SIZE];
-                                y[meta::limiter_metadata::HISTORY_MESH_SIZE+1] = y_zero;
+                                y[meta::limiter_metadata::HISTORY_MESH_SIZE+1] = 0.0f;
 
-                                mesh->data(2, meta::limiter_metadata::HISTORY_MESH_SIZE+2);
+                                mesh->data(2, meta::limiter_metadata::HISTORY_MESH_SIZE + 2);
+                            }
+                            else if (j == G_GAIN)
+                            {
+                                float *x = mesh->pvData[0];
+                                float *y = mesh->pvData[1];
+
+                                dsp::copy(&x[2], vTime, meta::limiter_metadata::HISTORY_MESH_SIZE);
+                                dsp::copy(&y[2], c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
+
+                                x[0] = x[2] + 0.5f;
+                                x[1] = x[0];
+                                y[0] = 1.0f;
+                                y[1] = y[2];
+
+                                x += meta::limiter_metadata::HISTORY_MESH_SIZE + 2;
+                                y += meta::limiter_metadata::HISTORY_MESH_SIZE + 2;
+                                x[0] = x[-1] - 0.5f;
+                                y[0] = y[-1];
+                                x[1] = x[0];
+                                y[1] = 1.0f;
+
+                                mesh->data(2, meta::limiter_metadata::HISTORY_MESH_SIZE + 4);
                             }
                             else
                             {
