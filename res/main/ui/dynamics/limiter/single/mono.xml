@@ -3,7 +3,7 @@
 		<!-- Top part -->
 		<grid rows="1" cols="2" hspacing="4">
 			<vbox expand="true">
-				<group ui:inject="GraphGroup" ipadding.h="0" ipadding.t="6" ipadding.b="0" expand="true" fill="true" text="labels.graphs.time">
+				<group ui:inject="GraphGroup" ipadding="0" expand="true" fill="true" text="labels.graphs.time">
 					<!-- Time graph -->
 					<graph width.min="560" height.min="280" expand="true">
 						<origin hpos="1" vpos="-1" visible="false"/>
@@ -23,23 +23,28 @@
 
 						<!-- Axis -->
 						<axis min="0" max="4" color="graph_prim" angle="1.0" log="false" visibility="false"/>
-						<axis min="-48 db" max="0 db" color="graph_prim" angle="0.5" log="true" visibility="false"/>
+						<axis min="-48 db" max="12 db" color="graph_prim" angle="0.5" log="true" visibility="false"/>
 
 						<!-- Baseline -->
 						<marker v="0 db" ox="1" oy="0" color="graph_prim" width="2"/>
 
 						<!-- Meshes -->
-						<mesh id="ig" width="2" color="left_in" visibility=":igv"/>
+						<mesh id="ig" width="0" color="left_in" fcolor="left_in" fcolor.a="0.8" fill="true" visibility=":igv"/>
 						<mesh id="og" width="2" color="left" visibility=":ogv"/>
 						<mesh id="scg" width="2" color="sidechain_1" visibility=":scgv"/>
-						<mesh id="grg" width="2" color="bright_blue" visibility=":grgv"/>
+						<mesh id="grg" width="2" color="bright_blue" visibility=":grgv" fcolor="bright_blue" fcolor.a="0.8" fill="true"/>
 
 						<!-- Markers -->
-						<marker id="th" editable="true" width="2" pointer="vsize" color="threshold" ox="1" oy="0"/>
+						<marker id="th" editable="true" width="3" pointer="vsize" color="threshold" hcolor="threshold" lcolor="threshold" hlcolor="threshold" ox="1" oy="0" lborder="50"
+						hlborder="50" color.a="0.1"
+						hcolor.a="0.0"
+						lcolor.a="0.8"
+						hlcolor.a="0.6"/>
 
 						<!-- Text -->
 						<ui:attributes x="4" halign="1" valign="-1">
-							<text y="0 db" text="graph.values.x:db" text:value="0"/>
+							<text y="12 db" text="graph.values.x:db" text:value="12"/>
+							<text y="0 db" text="0"/>
 							<text y="-12 db" text="-12"/>
 							<text y="-24 db" text="-24"/>
 							<text y="-36 db" text="-36"/>

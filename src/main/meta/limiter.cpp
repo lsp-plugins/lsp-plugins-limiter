@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_LIMITER_VERSION_MAJOR       1
 #define LSP_PLUGINS_LIMITER_VERSION_MINOR       0
-#define LSP_PLUGINS_LIMITER_VERSION_MICRO       18
+#define LSP_PLUGINS_LIMITER_VERSION_MICRO       19
 
 #define LSP_PLUGINS_LIMITER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -153,10 +153,10 @@ namespace lsp
             METER_OUT_GAIN("olm" id, "Output level meter" label, GAIN_AMP_0_DB), \
             METER_OUT_GAIN("sclm" id, "Sidechain level meter" label, GAIN_AMP_0_DB), \
             METER_GAIN_DFL("grlm" id, "Gain reduction level meter" label, GAIN_AMP_0_DB, GAIN_AMP_0_DB), \
-            MESH("ig" id, "Input graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
+            MESH("ig" id, "Input graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 2), \
             MESH("og" id, "Output graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
             MESH("scg" id, "Sidechain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
-            MESH("grg" id, "Gain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE)
+            MESH("grg" id, "Gain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 4)
 
         #define LIMIT_METERS_MONO       LIMIT_METERS("", "")
         #define LIMIT_METERS_STEREO     LIMIT_METERS("_l", " Left"), LIMIT_METERS("_r", " Right")
@@ -220,6 +220,8 @@ namespace lsp
             LSP_LV2_URI("limiter_mono"),
             LSP_LV2UI_URI("limiter_mono"),
             "jz5z",
+            LSP_VST3_UID("b1m     jz5z"),
+            LSP_VST3UI_UID("b1m     jz5z"),
             LSP_LADSPA_LIMITER_BASE + 0,
             LSP_LADSPA_URI("limiter_mono"),
             LSP_CLAP_URI("limiter_mono"),
@@ -245,6 +247,8 @@ namespace lsp
             LSP_LV2_URI("limiter_stereo"),
             LSP_LV2UI_URI("limiter_stereo"),
             "rfuc",
+            LSP_VST3_UID("b1s     rfuc"),
+            LSP_VST3UI_UID("b1s     rfuc"),
             LSP_LADSPA_LIMITER_BASE + 1,
             LSP_LADSPA_URI("limiter_stereo"),
             LSP_CLAP_URI("limiter_stereo"),
@@ -270,6 +274,8 @@ namespace lsp
             LSP_LV2_URI("sc_limiter_mono"),
             LSP_LV2UI_URI("sc_limiter_mono"),
             "kyzu",
+            LSP_VST3_UID("scb1m   kyzu"),
+            LSP_VST3UI_UID("scb1m   kyzu"),
             LSP_LADSPA_LIMITER_BASE + 2,
             LSP_LADSPA_URI("sc_limiter_mono"),
             LSP_CLAP_URI("sc_limiter_mono"),
@@ -295,6 +301,8 @@ namespace lsp
             LSP_LV2_URI("sc_limiter_stereo"),
             LSP_LV2UI_URI("sc_limiter_stereo"),
             "zwf7",
+            LSP_VST3_UID("scb1s   zwf7"),
+            LSP_VST3UI_UID("scb1s   zwf7"),
             LSP_LADSPA_LIMITER_BASE + 3,
             LSP_LADSPA_URI("sc_limiter_stereo"),
             LSP_CLAP_URI("sc_limiter_stereo"),
