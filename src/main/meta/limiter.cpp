@@ -107,6 +107,21 @@ namespace lsp
             { NULL, NULL }
         };
 
+        static const port_item_t limiter_sc_type[] =
+        {
+            { "Internal",       "sidechain.internal"    },
+            { "Link",           "sidechain.link"        },
+            { NULL, NULL }
+        };
+
+        static const port_item_t limiter_sc_type_for_sc[] =
+        {
+            { "Internal",       "sidechain.internal"    },
+            { "External",       "sidechain.external"    },
+            { "Link",           "sidechain.link"        },
+            { NULL, NULL }
+        };
+
         #define LIMIT_COMMON    \
             BYPASS,             \
             IN_GAIN,            \
@@ -127,22 +142,29 @@ namespace lsp
             SWITCH("pause", "Pause graph analysis", 0.0f), \
             TRIGGER("clear", "Clear graph analysis")
 
-        #define LIMIT_COMMON_SC \
-            SWITCH("extsc", "External sidechain", 0.0f)
+        #define LIMIT_SHM_LINK_MONO \
+            OPT_RETURN_MONO("link", "shml", "Side-chain shared memory link")
+
+        #define LIMIT_SHM_LINK_STEREO \
+            OPT_RETURN_STEREO("link", "shml_", "Side-chain shared memory link")
 
         #define LIMIT_COMMON_MONO       \
-            LIMIT_COMMON
+            LIMIT_COMMON, \
+            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type)
+
         #define LIMIT_COMMON_STEREO     \
-            LIMIT_COMMON_MONO, \
+            LIMIT_COMMON, \
+            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type), \
             LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
 
         #define LIMIT_COMMON_SC_MONO    \
             LIMIT_COMMON, \
-            LIMIT_COMMON_SC
+            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type_for_sc)
 
         #define LIMIT_COMMON_SC_STEREO  \
-            LIMIT_COMMON_STEREO, \
-            LIMIT_COMMON_SC
+            LIMIT_COMMON, \
+            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type_for_sc), \
+            LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
 
         #define LIMIT_METERS(id, label) \
             SWITCH("igv" id, "Input graph visibility" label, 1.0f), \
@@ -164,6 +186,7 @@ namespace lsp
         static const port_t limiter_mono_ports[] =
         {
             PORTS_MONO_PLUGIN,
+            LIMIT_SHM_LINK_MONO,
             LIMIT_COMMON_MONO,
             LIMIT_METERS_MONO,
 
@@ -173,6 +196,7 @@ namespace lsp
         static const port_t limiter_stereo_ports[] =
         {
             PORTS_STEREO_PLUGIN,
+            LIMIT_SHM_LINK_STEREO,
             LIMIT_COMMON_STEREO,
             LIMIT_METERS_STEREO,
 
@@ -183,6 +207,7 @@ namespace lsp
         {
             PORTS_MONO_PLUGIN,
             PORTS_MONO_SIDECHAIN,
+            LIMIT_SHM_LINK_MONO,
             LIMIT_COMMON_SC_MONO,
             LIMIT_METERS_MONO,
 
@@ -193,6 +218,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
+            LIMIT_SHM_LINK_STEREO,
             LIMIT_COMMON_SC_STEREO,
             LIMIT_METERS_STEREO,
 

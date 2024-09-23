@@ -57,24 +57,20 @@
 					</graph>
 				</group>
 				<void bg.color="bg" vexpand="false" fill="false" pad.v="2"/>
-				<hbox>
-					<align halign="-1" expand="true">
-						<hbox spacing="4" vexpand="false" bg.color="bg_schema" pad.h="6" pad.b="4" pad.t="4">
-							<label text="labels.mode:"/>
-							<combo id="mode" pad.r="12"/>
-							<label text="labels.Over_Sampling:"/>
-							<combo id="ovs" pad.r="12"/>
-							<label text="labels.dither:"/>
-							<combo id="dith" pad.r="12"/>
-						</hbox>
-					</align>
-					<align halign="1" vexpand="false">
-						<hbox spacing="4" vexpand="false" bg.color="bg_schema" pad.h="6" pad.b="4" pad.t="4">
-							<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
-							<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
-							<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red"/>
-						</hbox>
-					</align>
+				<hbox spacing="4" bg.color="bg_schema" pad.h="6" pad.b="4" pad.t="4">
+					<label text="labels.mode:"/>
+					<combo id="mode" pad.r="12"/>
+					<label text="labels.Over_Sampling:"/>
+					<combo id="ovs" pad.r="12"/>
+					<label text="labels.dither:"/>
+					<combo id="dith" pad.r="12"/>
+
+					<shmlink id="link" />
+					<void hexpand="true" />
+					
+					<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
+					<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
+					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red"/>
 				</hbox>
 			</vbox>
 
@@ -84,11 +80,11 @@
 					<label text="labels.gain_" padding="4"/>
 					<label text="labels.chan.in" padding="4"/>
 					<label text="labels.chan.out" padding="4"/>
+					
 					<button id="scgv" height="10" width="22" ui:inject="Button_orange" led="true"/>
 					<button id="grgv" height="10" width="22" ui:inject="Button_blue" led="true"/>
 					<button id="igv" height="10" width="22" ui:inject="Button_left" led="true"/>
 					<button id="ogv" height="10" width="22" ui:inject="Button_left" led="true"/>
-
 				</ui:with>
 
 				<!-- Sidechain signal meter -->
@@ -156,7 +152,7 @@
 
 					<hbox fill="false">
 						<knob id="scp"/>
-						<value id="scp" width.min="32" pad.l="4" visibility="ex :extsc"/>
+						<value id="scp" width.min="32" pad.l="4" />
 					</hbox>
 
 					<knob id="lk" pad.v="4" pad.h="6"/>
@@ -169,10 +165,8 @@
 						<knob id="rt" scolor="release"/>
 					</ui:with>
 
-					<hbox fill="false">
-						<button id="extsc" pad.h="6" height="18" width="70" text="labels.sc.Ext_ernal" ui:inject="Button_cyan_8" visibility="ex :extsc"/>
-						<value id="scp" visibility="! ex :extsc"/>
-					</hbox>
+					<combo id="extsc" pad.h="6" height="18" />
+					
 					<value id="lk" pad.b="4" pad.h="6"/>
 					<button id="boost" pad.h="6" height="18" width="70" text="labels.boost_" ui:inject="Button_violet_8"/>
 					<ui:with pad.b="4" pad.h="6">
