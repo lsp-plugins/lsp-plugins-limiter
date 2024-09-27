@@ -1,8 +1,7 @@
 <plugin resizable="true">
 	<vbox>
 		<!-- Top part -->
-		<grid rows="1" cols="2" hspacing="4">
-			<vbox expand="true">
+		<grid rows="3" cols="2" hspacing="4">
 				<group ui:inject="GraphGroup" ipadding="0" expand="true" fill="true" text="labels.graphs.time">
 					<!-- Time graph -->
 					<graph width.min="560" height.min="280" expand="true">
@@ -60,23 +59,6 @@
 						</ui:for>
 					</graph>
 				</group>
-				<void bg.color="bg" vexpand="false" fill="false" pad.v="2"/>
-				<hbox spacing="4" vexpand="false" bg.color="bg_schema" pad.h="6" pad.b="4" pad.t="4">
-					<label text="labels.mode:"/>
-					<combo id="mode" pad.r="12"/>
-					<label text="labels.Over_Sampling:"/>
-					<combo id="ovs" pad.r="12"/>
-					<label text="labels.dither:"/>
-					<combo id="dith" pad.r="12"/>
-					<shmlink id="link" />
-					
-					<void hexpand="true" />
-
-					<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
-					<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
-					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red"/>
-				</hbox>
-			</vbox>
 
 			<grid rows="3" cols="4" hfill="false" hexpand="false" hspacing="4">
 				<ui:with bg.color="bg_schema">
@@ -131,13 +113,36 @@
 				</ledmeter>
 			</grid>
 
+			<cell cols="2">
+				<void bg.color="bg" vexpand="false" fill="false" pad.v="2"/>
+			</cell>
+			<cell cols="2">
+				<hbox spacing="4" bg.color="bg_schema" pad.h="4" >
+
+					<label text="labels.mode:"/>
+					<combo id="mode" pad.r="12" pad.v="4"/>
+					<label text="labels.Over_Sampling:"/>
+					<combo id="ovs" pad.r="12"/>
+					<label text="labels.dither:"/>
+					<combo id="dith" pad.r="12"/>
+					<void hexpand="true" />
+
+					<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
+					<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
+					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red"/>
+
+					<vsep pad.h="2" bg.color="bg" reduce="true"/>
+					<shmlink id="link"/>
+				</hbox>
+			</cell>
+
 		</grid>
 
 		<!-- Separator -->
 		<void bg.color="bg" fill="true" pad.v="2" reduce="true"/>
 
 		<!-- Bottom part -->
-		<hbox spacing="4">
+		<hbox spacing="4" vreduce="true">
 			<!-- ALR -->
 			<group text="groups.alr">
 				<grid rows="3" cols="3">
@@ -147,7 +152,7 @@
 						<label text="labels.knee"/>
 					</ui:with>
 
-					<ui:with pad.v="4">
+					<ui:with pad.t="5" pad.b="4">
 						<knob id="alr_at" scolor="attack"/>
 						<knob id="alr_rt" scolor="release"/>
 						<knob id="knee"/>
@@ -162,13 +167,13 @@
 			<!-- Limiter setup -->
 			<group text="groups.plug.limiter" ipadding="0" >
 				<grid rows="3" cols="10">
-					<label text="labels.sc.sc_preamp" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<label text="labels.sc.sc_preamp" pad.h="6" pad.t="6" fill="false" hexpand="true" vreduce="true"/>
 					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-					<label text="labels.sc.lookahead" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<label text="labels.sc.lookahead" pad.h="6" pad.t="6" fill="false" hexpand="true" vreduce="true"/>
 					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-					<label text="labels.threshold" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
+					<label text="labels.threshold" pad.h="6" pad.t="6" fill="false" hexpand="true" vreduce="true"/>
 					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
-					<ui:with pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true">
+					<ui:with pad.h="6" pad.t="6" fill="false" hexpand="true" vreduce="true">
 						<label text="labels.attack"/>
 						<label text="labels.release"/>
 					</ui:with>
@@ -176,25 +181,26 @@
 					<label text="labels.stereo_link" pad.h="6" pad.t="4" fill="false" hexpand="true" vreduce="true"/>
 
 					<hbox fill="false">
-						<knob id="scp"/>
+						<knob id="scp" pad.t="1"/>
 						<value id="scp" width.min="32" pad.l="4" />
 					</hbox>
 
-					<knob id="lk" pad.v="4" pad.h="6"/>
+					<knob id="lk" pad.t="5" pad.b="4" pad.h="6"/>
 					<hbox fill="false">
-						<knob id="th" scolor="threshold"/>
+						<knob id="th" scolor="threshold" pad.t="1"/>
 						<value id="th" width.min="32" pad.l="4"/>
 					</hbox>
-					<ui:with pad.v="4" pad.h="6">
+					<ui:with pad.t="5" pad.b="4" pad.h="6">
 						<knob id="at" scolor="attack"/>
 						<knob id="rt" scolor="release"/>
 						<knob id="slink" scolor="balance"/>
 					</ui:with>
 
-					<combo id="extsc" />
-					<value id="lk" pad.b="4" pad.h="6"/>
+					<combo id="extsc" pad.h="6" height="18" />
+
+					<value id="lk" pad.b="6" pad.h="6"/>
 					<button id="boost" pad.h="6" height="18" width="70" text="labels.boost_" ui:inject="Button_violet_8"/>
-					<ui:with pad.b="4" pad.h="6">
+					<ui:with pad.b="6" pad.h="6">
 						<value id="at"/>
 						<value id="rt"/>
 						<value id="slink"/>
@@ -209,7 +215,7 @@
 						<label text="labels.input"/>
 						<label text="labels.output"/>
 					</ui:with>
-					<ui:with pad.v="4">
+					<ui:with pad.t="5" pad.b="4">
 						<knob id="g_in"/>
 						<knob id="g_out"/>
 					</ui:with>
