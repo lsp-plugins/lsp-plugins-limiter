@@ -94,7 +94,7 @@
 				<void bg.color="bg" vexpand="false" fill="false" pad.v="2"/>
 			</cell>
 			<cell cols="2">
-				<hbox spacing="4" bg.color="bg_schema" pad.h="4" >
+				<hbox spacing="4" bg.color="bg_schema" pad.h="6" >
 
 					<label text="labels.mode:"/>
 					<combo id="mode" pad.r="12" pad.v="4"/>
@@ -106,10 +106,10 @@
 
 					<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
 					<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
-					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red"/>
+					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red" pad.r="2"/>
 
 					<vsep pad.h="2" bg.color="bg" reduce="true"/>
-					<shmlink id="link"/>
+					<shmlink id="link" pad.l="2"/>
 				</hbox>
 			</cell>
 
