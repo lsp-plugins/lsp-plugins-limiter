@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.24 ===
+
+
 === 1.0.23 ===
 * Added support of sidechain passed by shared memory link.
 * Updated build scripts and dependencies.
