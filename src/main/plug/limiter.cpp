@@ -24,7 +24,9 @@
 #include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/dsp/dsp.h>
 #include <lsp-plug.in/dsp-units/units.h>
+#include <lsp-plug.in/plug-fw/core/AudioBuffer.h>
 #include <lsp-plug.in/stdlib/math.h>
+#include <lsp-plug.in/shared/debug.h>
 #include <lsp-plug.in/shared/id_colors.h>
 
 #define LIMIT_BUFSIZE           8192
@@ -34,12 +36,6 @@ namespace lsp
 {
     namespace plugins
     {
-        static plug::IPort *TRACE_PORT(plug::IPort *p)
-        {
-            lsp_trace("  port id=%s", (p)->metadata()->id);
-            return p;
-        }
-
         //-------------------------------------------------------------------------
         // Plugin factory
         typedef struct plugin_settings_t
@@ -82,12 +78,12 @@ namespace lsp
         {
             nChannels       = (stereo) ? 2 : 1;
             bSidechain      = sc;
-            vChannels       = NULL;
-            vTime           = NULL;
             bPause          = false;
             bClear          = false;
-            bExtSc          = false;
             bScListen       = false;
+            vChannels       = NULL;
+            vTime           = NULL;
+            nScMode         = SCM_INTERNAL;
             fInGain         = GAIN_AMP_0_DB;
             fOutGain        = GAIN_AMP_0_DB;
             fPreamp         = GAIN_AMP_0_DB;
@@ -110,7 +106,7 @@ namespace lsp
             pRelease        = NULL;
             pPause          = NULL;
             pClear          = NULL;
-            pExtSc          = NULL;
+            pScMode         = NULL;
             pScListen       = NULL;
             pKnee           = NULL;
             pBoost          = NULL;
@@ -144,8 +140,7 @@ namespace lsp
             if (ptr == NULL)
                 return;
 
-            vTime           = reinterpret_cast<float *>(ptr);
-            ptr            += h_data;
+            vTime           = advance_ptr_bytes<float>(ptr, h_data);
 
             float lk_latency= int(dspu::samples_to_millis(MAX_SAMPLE_RATE, meta::limiter_metadata::OVERSAMPLING_MAX)) +
                               meta::limiter_metadata::LOOKAHEAD_MAX + 1.0f;
@@ -158,16 +153,13 @@ namespace lsp
                 // Initialize channel
                 c->vIn          = NULL;
                 c->vSc          = NULL;
+                c->vShmIn       = NULL;
                 c->vOut         = NULL;
 
-                c->vDataBuf     = reinterpret_cast<float *>(ptr);
-                ptr            += c_data;
-                c->vScBuf       = reinterpret_cast<float *>(ptr);
-                ptr            += c_data;
-                c->vGainBuf     = reinterpret_cast<float *>(ptr);
-                ptr            += c_data;
-                c->vOutBuf      = reinterpret_cast<float *>(ptr);
-                ptr            += c_data;
+                c->vDataBuf     = advance_ptr_bytes<float>(ptr, c_data);
+                c->vScBuf       = advance_ptr_bytes<float>(ptr, c_data);
+                c->vGainBuf     = advance_ptr_bytes<float>(ptr, c_data);
+                c->vOutBuf      = advance_ptr_bytes<float>(ptr, c_data);
 
                 c->bOutVisible  = true;
                 c->bGainVisible = true;
@@ -185,6 +177,7 @@ namespace lsp
                 c->pIn          = NULL;
                 c->pOut         = NULL;
                 c->pSc          = NULL;
+                c->pShmIn       = NULL;
 
                 // Initialize oversampler
                 if (!c->sOver.init())
@@ -209,42 +202,44 @@ namespace lsp
             // Bind audio ports
             lsp_trace("Binding audio ports");
             for (size_t i=0; i<nChannels; ++i)
-                vChannels[i].pIn        = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pIn);
             for (size_t i=0; i<nChannels; ++i)
-                vChannels[i].pOut       = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pOut);
 
             if (bSidechain)
             {
                 for (size_t i=0; i<nChannels; ++i)
-                    vChannels[i].pSc        = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(vChannels[i].pSc);
             }
+
+            SKIP_PORT("Shared memory link name");
+            for (size_t i=0; i<nChannels; ++i)
+                BIND_PORT(vChannels[i].pShmIn);
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            pBypass         = TRACE_PORT(ports[port_id++]);
-            pInGain         = TRACE_PORT(ports[port_id++]);
-            pOutGain        = TRACE_PORT(ports[port_id++]);
-            pPreamp         = TRACE_PORT(ports[port_id++]);
-            pAlrOn          = TRACE_PORT(ports[port_id++]);
-            pAlrAttack      = TRACE_PORT(ports[port_id++]);
-            pAlrRelease     = TRACE_PORT(ports[port_id++]);
-            pMode           = TRACE_PORT(ports[port_id++]);
-            pThresh         = TRACE_PORT(ports[port_id++]);
-            pKnee           = TRACE_PORT(ports[port_id++]);
-            pBoost          = TRACE_PORT(ports[port_id++]);
-            pLookahead      = TRACE_PORT(ports[port_id++]);
-            pAttack         = TRACE_PORT(ports[port_id++]);
-            pRelease        = TRACE_PORT(ports[port_id++]);
-            pOversampling   = TRACE_PORT(ports[port_id++]);
-            pDithering      = TRACE_PORT(ports[port_id++]);
-            pPause          = TRACE_PORT(ports[port_id++]);
-            pClear          = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pBypass);
+            BIND_PORT(pInGain);
+            BIND_PORT(pOutGain);
+            BIND_PORT(pPreamp);
+            BIND_PORT(pAlrOn);
+            BIND_PORT(pAlrAttack);
+            BIND_PORT(pAlrRelease);
+            BIND_PORT(pMode);
+            BIND_PORT(pThresh);
+            BIND_PORT(pKnee);
+            BIND_PORT(pBoost);
+            BIND_PORT(pLookahead);
+            BIND_PORT(pAttack);
+            BIND_PORT(pRelease);
+            BIND_PORT(pOversampling);
+            BIND_PORT(pDithering);
+            BIND_PORT(pPause);
+            BIND_PORT(pClear);
 
+            BIND_PORT(pScMode);
             if (nChannels > 1)
-                pStereoLink     = TRACE_PORT(ports[port_id++]);
-
-            if (bSidechain)
-                pExtSc          = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pStereoLink);
 
             // Bind history ports for each channel
             lsp_trace("Binding history ports");
@@ -254,15 +249,15 @@ namespace lsp
 
                 // Visibility ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                    c->pVisible[j]  = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pVisible[j]);
 
                 // Metering ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                    c->pMeter[j]    = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pMeter[j]);
 
                 // Graph ports
                 for (size_t j=0; j<G_TOTAL; ++j)
-                    c->pGraph[j]    = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pGraph[j]);
             }
 
             float delta     = meta::limiter_metadata::HISTORY_TIME / (meta::limiter_metadata::HISTORY_MESH_SIZE - 1);
@@ -436,6 +431,31 @@ namespace lsp
             return 0;
         }
 
+        uint32_t limiter::decode_sidechain_mode(uint32_t mode)
+        {
+            if (bSidechain)
+            {
+                switch (mode)
+                {
+                    case 0: return SCM_INTERNAL;
+                    case 1: return SCM_EXTERNAL;
+                    case 2: return SCM_LINK;
+                    default: break;
+                }
+            }
+            else
+            {
+                switch (mode)
+                {
+                    case 0: return SCM_INTERNAL;
+                    case 1: return SCM_LINK;
+                    default: break;
+                }
+            }
+
+            return SCM_INTERNAL;
+        }
+
         void limiter::sync_latency()
         {
             channel_t *c = &vChannels[0];
@@ -469,7 +489,7 @@ namespace lsp
             float alr_attack            = pAlrAttack->value();
             float alr_release           = pAlrRelease->value();
             fStereoLink                 = (pStereoLink != NULL) ? pStereoLink->value()*0.01f : 1.0f;
-            bExtSc                      = (pExtSc != NULL) ? pExtSc->value() >= 0.5f : false;
+            nScMode                     = decode_sidechain_mode(pScMode->value());
 
             bool boost                  = pBoost->value();
             fOutGain                    = pOutGain->value();
@@ -545,7 +565,12 @@ namespace lsp
                 channel_t *c    = &vChannels[i];
                 c->vIn          = c->pIn->buffer<float>();
                 c->vOut         = c->pOut->buffer<float>();
-                c->vSc          = ((c->pSc != NULL) && (bExtSc)) ? c->pSc->buffer<float>() : NULL;
+                c->vSc          = (c->pSc != NULL) ? c->pSc->buffer<float>() : NULL;
+                c->vShmIn       = NULL;
+
+                core::AudioBuffer *buf = (c->pShmIn != NULL) ? c->pShmIn->buffer<core::AudioBuffer>() : NULL;
+                if ((buf != NULL) && (buf->active()))
+                    c->vShmIn       = buf->buffer();
             }
 
             // Get oversampling times
@@ -573,22 +598,44 @@ namespace lsp
                         c->sOver.upsample(c->vDataBuf, c->vIn, to_do);
 
                     // Process sidechain signal
-                    if (c->vSc != NULL)
+                    switch (nScMode)
                     {
-                        if (fPreamp != GAIN_AMP_0_DB)
-                        {
-                            dsp::mul_k3(c->vOutBuf, c->vSc, fPreamp, to_do);
-                            c->sScOver.upsample(c->vScBuf, c->vOutBuf, to_do);
-                        }
-                        else
-                            c->sScOver.upsample(c->vScBuf, c->vSc, to_do);
-                    }
-                    else
-                    {
-                        if (fPreamp != GAIN_AMP_0_DB)
-                            dsp::mul_k3(c->vScBuf, c->vDataBuf, fPreamp, to_doxn);
-                        else
-                            dsp::copy(c->vScBuf, c->vDataBuf, to_doxn);
+                        case SCM_EXTERNAL:
+                            if (c->vSc != NULL)
+                            {
+                                if (fPreamp != GAIN_AMP_0_DB)
+                                {
+                                    dsp::mul_k3(c->vOutBuf, c->vSc, fPreamp, to_do);
+                                    c->sScOver.upsample(c->vScBuf, c->vOutBuf, to_do);
+                                }
+                                else
+                                    c->sScOver.upsample(c->vScBuf, c->vSc, to_do);
+                            }
+                            else
+                                dsp::fill_zero(c->vScBuf, to_do);
+                            break;
+
+                        case SCM_LINK:
+                            if (c->vShmIn != NULL)
+                            {
+                                if (fPreamp != GAIN_AMP_0_DB)
+                                {
+                                    dsp::mul_k3(c->vOutBuf, c->vShmIn, fPreamp, to_do);
+                                    c->sScOver.upsample(c->vScBuf, c->vOutBuf, to_do);
+                                }
+                                else
+                                    c->sScOver.upsample(c->vScBuf, c->vShmIn, to_do);
+                            }
+                            else
+                                dsp::fill_zero(c->vScBuf, to_do);
+                            break;
+
+                        default:
+                            if (fPreamp != GAIN_AMP_0_DB)
+                                dsp::mul_k3(c->vScBuf, c->vDataBuf, fPreamp, to_doxn);
+                            else
+                                dsp::copy(c->vScBuf, c->vDataBuf, to_doxn);
+                            break;
                     }
 
                     // Update graphs
@@ -648,6 +695,8 @@ namespace lsp
                     c->vOut        += to_do;
                     if (c->vSc != NULL)
                         c->vSc         += to_do;
+                    if (c->vShmIn != NULL)
+                        c->vShmIn      += to_do;
                 }
 
                 // Decrement number of samples for processing
@@ -851,6 +900,9 @@ namespace lsp
 
             v->write("nChannels", nChannels);
             v->write("bSidechain", bSidechain);
+            v->write("bPause", bPause);
+            v->write("bClear", bClear);
+            v->write("bScListen", bScListen);
             v->begin_array("vChannels", vChannels, nChannels);
             for (size_t i=0; i<nChannels; ++i)
             {
@@ -873,6 +925,7 @@ namespace lsp
 
                     v->write("vIn", c->vIn);
                     v->write("vSc", c->vSc);
+                    v->write("vShmIn", c->vShmIn);
                     v->write("vOut", c->vOut);
 
                     v->write("vDataBuf", c->vDataBuf);
@@ -888,6 +941,7 @@ namespace lsp
                     v->write("pIn", c->pIn);
                     v->write("pOut", c->pOut);
                     v->write("pSc", c->pSc);
+                    v->write("pShmIn", c->pShmIn);
                     v->writev("pVisible", c->pVisible, G_TOTAL);
 
                     v->writev("pGraph", c->pGraph, G_TOTAL);
@@ -898,10 +952,7 @@ namespace lsp
             v->end_array();
 
             v->write("vTime", vTime);
-            v->write("bPause", bPause);
-            v->write("bClear", bClear);
-            v->write("bExtSc", bExtSc);
-            v->write("bScListen", bScListen);
+            v->write("nScMode", nScMode);
             v->write("fInGain", fInGain);
             v->write("fOutGain", fOutGain);
             v->write("fPreamp", fPreamp);
@@ -925,7 +976,7 @@ namespace lsp
             v->write("pRelease", pRelease);
             v->write("pPause", pPause);
             v->write("pClear", pClear);
-            v->write("pExtSc", pExtSc);
+            v->write("pScMode", pScMode);
             v->write("pScListen", pScListen);
             v->write("pKnee", pKnee);
             v->write("pBoost", pBoost);

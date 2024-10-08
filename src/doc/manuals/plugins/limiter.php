@@ -97,6 +97,7 @@ words: the more work should be done, the more CPU resources will be used. Beware
 		<li><b>Full 8x/24 bit</b> - 8x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
 	</ul>
 	<li><b>Dither</b> - allows to enable dithering for the specified sample bitness.</li>
+	<li><b>Link</b> - the name of the shared memory link to pass sidechain signal.</li>
 	<li><b>SC</b> - enables drawing of sidechain input graph and corresponding level meter.</li>
 	<li><b>Gain</b> - enables drawing of gain amplification line and corresponding amplification meter.</li>
 	<li><b>In</b> - enables drawing of limiter's input signal graph and corresponding level meter.</li>
@@ -121,9 +122,14 @@ words: the more work should be done, the more CPU resources will be used. Beware
 <p><b>'Limiter' section:</b></p>
 <ul>
 	<li><b>SC Preamp</b> - sidechain pre-amplification gain.</li>
+	<li><b>Sidechain Mode</b> - sidechain mode:</li>
+	<ul>
+		<li><b>Internal</b> - the input signal is processed as sidechain signal.</li>
 	<?php if ($sc) {?> 
-		<li><b>Ext</b> - this button enables external sidechain.</li>
+		<li><b>External</b> - the signal at additional sidechain audio inputs is used as sidechain signal.</li>
 	<?php }?>
+		<li><b>Link</b> - sidechain input is passed by shared memory link.</li>
+	</ul>
 	<li><b>Lookahead</b> - the size of lookahead buffer in milliseconds. Forces the limiter to add the corresponding latency to output signal.</li>
 	<li><b>Threshold</b> - the maximum input level of the signal allowed by limiter.</li>
 	<li><b>Boost</b> - applies corresponding to the <b>Threshold</b> gain to the output signal.</li>

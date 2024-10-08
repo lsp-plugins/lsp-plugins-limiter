@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -55,6 +55,13 @@ namespace lsp
                     G_TOTAL
                 };
 
+                enum sc_mode_t
+                {
+                    SCM_INTERNAL,
+                    SCM_EXTERNAL,
+                    SCM_LINK,
+                };
+
                 typedef struct channel_t
                 {
                     dspu::Bypass        sBypass;            // Bypass
@@ -68,6 +75,7 @@ namespace lsp
 
                     const float        *vIn;                // Input data
                     const float        *vSc;                // Sidechain data
+                    const float        *vShmIn;             // Shared memory input
                     float              *vOut;               // Output data
 
                     float              *vDataBuf;           // Audio data buffer (oversampled)
@@ -83,6 +91,7 @@ namespace lsp
                     plug::IPort        *pIn;                // Input port
                     plug::IPort        *pOut;               // Output port
                     plug::IPort        *pSc;                // Sidechain port
+                    plug::IPort        *pShmIn;             // Sidechain port
                     plug::IPort        *pVisible[G_TOTAL];  // Input visibility
 
                     plug::IPort        *pGraph[G_TOTAL];    // History graphs
@@ -90,14 +99,14 @@ namespace lsp
                 } channel_t;
 
             protected:
-                size_t              nChannels;      // Number of channels
+                uint32_t            nChannels;      // Number of channels
                 bool                bSidechain;     // Sidechain presence flag
-                channel_t          *vChannels;      // Audio channels
-                float              *vTime;          // Time points buffer
                 bool                bPause;         // Pause button
                 bool                bClear;         // Clear button
-                bool                bExtSc;         // External sidechain
                 bool                bScListen;      // Sidechain listen
+                channel_t          *vChannels;      // Audio channels
+                float              *vTime;          // Time points buffer
+                uint32_t            nScMode;        // Sidechain mode
                 float               fInGain;        // Input gain
                 float               fOutGain;       // Output gain
                 float               fPreamp;        // Sidechain pre-amplification
@@ -121,7 +130,7 @@ namespace lsp
                 plug::IPort        *pRelease;       // Release time
                 plug::IPort        *pPause;         // Pause gain
                 plug::IPort        *pClear;         // Cleanup gain
-                plug::IPort        *pExtSc;         // External sidechain
+                plug::IPort        *pScMode;        // Sidechain mode
                 plug::IPort        *pScListen;      // Sidechain listen
                 plug::IPort        *pKnee;          // Limiter knee
                 plug::IPort        *pBoost;         // Gain boost
@@ -136,6 +145,9 @@ namespace lsp
                 static bool                 get_filtering(size_t mode);
                 static dspu::limiter_mode_t get_limiter_mode(size_t mode);
                 static size_t               get_dithering(size_t mode);
+
+            protected:
+                uint32_t                    decode_sidechain_mode(uint32_t mode);
                 void                        sync_latency();
                 void                        do_destroy();
 
