@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -38,40 +38,43 @@ namespace lsp
     {
         //-------------------------------------------------------------------------
         // Plugin factory
-        typedef struct plugin_settings_t
+        inline namespace
         {
-            const meta::plugin_t   *metadata;
-            bool                    sc;
-            bool                    stereo;
-        } plugin_settings_t;
+            typedef struct plugin_settings_t
+            {
+                const meta::plugin_t   *metadata;
+                bool                    sc;
+                bool                    stereo;
+            } plugin_settings_t;
 
-        static const meta::plugin_t *plugins[] =
-        {
-            &meta::limiter_mono,
-            &meta::limiter_stereo,
-            &meta::sc_limiter_mono,
-            &meta::sc_limiter_stereo
-        };
+            static const meta::plugin_t *plugins[] =
+            {
+                &meta::limiter_mono,
+                &meta::limiter_stereo,
+                &meta::sc_limiter_mono,
+                &meta::sc_limiter_stereo
+            };
 
-        static const plugin_settings_t plugin_settings[] =
-        {
-            { &meta::limiter_mono,       false, false       },
-            { &meta::limiter_stereo,     false, true        },
-            { &meta::sc_limiter_mono,    true,  false       },
-            { &meta::sc_limiter_stereo,  true,  true        },
+            static const plugin_settings_t plugin_settings[] =
+            {
+                { &meta::limiter_mono,       false, false       },
+                { &meta::limiter_stereo,     false, true        },
+                { &meta::sc_limiter_mono,    true,  false       },
+                { &meta::sc_limiter_stereo,  true,  true        },
 
-            { NULL, 0, false }
-        };
+                { NULL, 0, false }
+            };
 
-        static plug::Module *plugin_factory(const meta::plugin_t *meta)
-        {
-            for (const plugin_settings_t *s = plugin_settings; s->metadata != NULL; ++s)
-                if (s->metadata == meta)
-                    return new limiter(s->metadata, s->sc, s->stereo);
-            return NULL;
-        }
+            static plug::Module *plugin_factory(const meta::plugin_t *meta)
+            {
+                for (const plugin_settings_t *s = plugin_settings; s->metadata != NULL; ++s)
+                    if (s->metadata == meta)
+                        return new limiter(s->metadata, s->sc, s->stereo);
+                return NULL;
+            }
 
-        static plug::Factory factory(plugin_factory, plugins, 4);
+            static plug::Factory factory(plugin_factory, plugins, 4);
+        } /* inline namespace */
 
         //-------------------------------------------------------------------------
         limiter::limiter(const meta::plugin_t *metadata, bool sc, bool stereo): plug::Module(metadata)

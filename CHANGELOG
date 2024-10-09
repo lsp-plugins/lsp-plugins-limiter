@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.24 ===
-
+* Fixed compilation on modern compilers.
 
 === 1.0.23 ===
 * Added support of sidechain passed by shared memory link.
