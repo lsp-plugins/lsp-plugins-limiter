@@ -4,6 +4,7 @@
 
 === 1.0.24 ===
 * Fixed compilation on modern compilers.
+* Updated build scripts and dependencies.
 
 === 1.0.23 ===
 * Added support of sidechain passed by shared memory link.
