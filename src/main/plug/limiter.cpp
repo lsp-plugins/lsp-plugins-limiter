@@ -332,7 +332,7 @@ namespace lsp
                 }
 
                 c->sGraph[G_GAIN].fill(GAIN_AMP_0_DB);
-                c->sGraph[G_GAIN].set_method(dspu::MM_MINIMUM);
+                c->sGraph[G_GAIN].set_method(dspu::MM_ABS_MINIMUM);
             }
         }
 
