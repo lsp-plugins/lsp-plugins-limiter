@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -128,15 +128,15 @@ namespace lsp
             OUT_GAIN,           \
             AMP_GAIN100("scp", "Sidechain preamp", GAIN_AMP_0_DB), \
             SWITCH("alr", "Automatic level regulation", 1.0f), \
-            LOG_CONTROL("alr_at", "Automatic level regulation attack time", U_MSEC, limiter_metadata::ALR_ATTACK_TIME), \
-            LOG_CONTROL("alr_rt", "Automatic level regulation release time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
+            LOG_CONTROL("alr_at", "Automatic level regulation attack time", "ALR att time", U_MSEC, limiter_metadata::ALR_ATTACK_TIME), \
+            LOG_CONTROL("alr_rt", "Automatic level regulation release time", "ALR rel time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
             COMBO("mode", "Operating mode", limiter_metadata::LOM_DEFAULT, limiter_oper_modes), \
-            LOG_CONTROL("th", "Threshold", U_GAIN_AMP, limiter_metadata::THRESHOLD), \
-            LOG_CONTROL("knee", "Knee", U_GAIN_AMP, limiter_metadata::KNEE), \
+            LOG_CONTROL("th", "Threshold", "Threshold", U_GAIN_AMP, limiter_metadata::THRESHOLD), \
+            LOG_CONTROL("knee", "Knee", "Knee", U_GAIN_AMP, limiter_metadata::KNEE), \
             SWITCH("boost", "Gain boost", 1.0f), \
-            LOG_CONTROL("lk", "Lookahead", U_MSEC, limiter_metadata::LOOKAHEAD), \
-            LOG_CONTROL("at", "Attack time", U_MSEC, limiter_metadata::ATTACK_TIME), \
-            LOG_CONTROL("rt", "Release time", U_MSEC, limiter_metadata::RELEASE_TIME), \
+            LOG_CONTROL("lk", "Lookahead", "Lookahead", U_MSEC, limiter_metadata::LOOKAHEAD), \
+            LOG_CONTROL("at", "Attack time", "Att time", U_MSEC, limiter_metadata::ATTACK_TIME), \
+            LOG_CONTROL("rt", "Release time", "Rel time", U_MSEC, limiter_metadata::RELEASE_TIME), \
             COMBO("ovs", "Oversampling", limiter_metadata::OVS_DEFAULT, limiter_ovs_modes),           \
             COMBO("dith", "Dithering", limiter_metadata::DITHER_DEFAULT, limiter_dither_modes),           \
             SWITCH("pause", "Pause graph analysis", 0.0f), \
@@ -155,7 +155,7 @@ namespace lsp
         #define LIMIT_COMMON_STEREO     \
             LIMIT_COMMON, \
             COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type), \
-            LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
+            LOG_CONTROL("slink", "Stereo linking", "Stereo link", U_PERCENT, limiter_metadata::LINKING)
 
         #define LIMIT_COMMON_SC_MONO    \
             LIMIT_COMMON, \
@@ -164,7 +164,7 @@ namespace lsp
         #define LIMIT_COMMON_SC_STEREO  \
             LIMIT_COMMON, \
             COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type_for_sc), \
-            LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
+            LOG_CONTROL("slink", "Stereo linking", "Stereo link", U_PERCENT, limiter_metadata::LINKING)
 
         #define LIMIT_METERS(id, label) \
             SWITCH("igv" id, "Input graph visibility" label, 1.0f), \
