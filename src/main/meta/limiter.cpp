@@ -126,7 +126,7 @@ namespace lsp
             BYPASS,             \
             IN_GAIN,            \
             OUT_GAIN,           \
-            AMP_GAIN100("scp", "Sidechain preamp", GAIN_AMP_0_DB), \
+            AMP_GAIN100("scp", "Sidechain preamp", "SC preamp", GAIN_AMP_0_DB), \
             SWITCH("alr", "Automatic level regulation", "ALR on", 1.0f), \
             LOG_CONTROL("alr_at", "Automatic level regulation attack time", "ALR att time", U_MSEC, limiter_metadata::ALR_ATTACK_TIME), \
             LOG_CONTROL("alr_rt", "Automatic level regulation release time", "ALR rel time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
