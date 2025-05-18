@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_LIMITER_VERSION_MAJOR       1
 #define LSP_PLUGINS_LIMITER_VERSION_MINOR       0
-#define LSP_PLUGINS_LIMITER_VERSION_MICRO       26
+#define LSP_PLUGINS_LIMITER_VERSION_MICRO       27
 
 #define LSP_PLUGINS_LIMITER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -126,21 +126,21 @@ namespace lsp
             BYPASS,             \
             IN_GAIN,            \
             OUT_GAIN,           \
-            AMP_GAIN100("scp", "Sidechain preamp", GAIN_AMP_0_DB), \
-            SWITCH("alr", "Automatic level regulation", 1.0f), \
-            LOG_CONTROL("alr_at", "Automatic level regulation attack time", U_MSEC, limiter_metadata::ALR_ATTACK_TIME), \
-            LOG_CONTROL("alr_rt", "Automatic level regulation release time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
-            COMBO("mode", "Operating mode", limiter_metadata::LOM_DEFAULT, limiter_oper_modes), \
-            LOG_CONTROL("th", "Threshold", U_GAIN_AMP, limiter_metadata::THRESHOLD), \
-            LOG_CONTROL("knee", "Knee", U_GAIN_AMP, limiter_metadata::KNEE), \
-            SWITCH("boost", "Gain boost", 1.0f), \
-            LOG_CONTROL("lk", "Lookahead", U_MSEC, limiter_metadata::LOOKAHEAD), \
-            LOG_CONTROL("at", "Attack time", U_MSEC, limiter_metadata::ATTACK_TIME), \
-            LOG_CONTROL("rt", "Release time", U_MSEC, limiter_metadata::RELEASE_TIME), \
-            COMBO("ovs", "Oversampling", limiter_metadata::OVS_DEFAULT, limiter_ovs_modes),           \
-            COMBO("dith", "Dithering", limiter_metadata::DITHER_DEFAULT, limiter_dither_modes),           \
-            SWITCH("pause", "Pause graph analysis", 0.0f), \
-            TRIGGER("clear", "Clear graph analysis")
+            AMP_GAIN100("scp", "Sidechain preamp", "SC preamp", GAIN_AMP_0_DB), \
+            SWITCH("alr", "Automatic level regulation", "ALR on", 1.0f), \
+            LOG_CONTROL("alr_at", "Automatic level regulation attack time", "ALR att time", U_MSEC, limiter_metadata::ALR_ATTACK_TIME), \
+            LOG_CONTROL("alr_rt", "Automatic level regulation release time", "ALR rel time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
+            COMBO("mode", "Operating mode", "Mode", limiter_metadata::LOM_DEFAULT, limiter_oper_modes), \
+            LOG_CONTROL("th", "Threshold", "Threshold", U_GAIN_AMP, limiter_metadata::THRESHOLD), \
+            LOG_CONTROL("knee", "Knee", "Knee", U_GAIN_AMP, limiter_metadata::KNEE), \
+            SWITCH("boost", "Gain boost", "Gain boost", 1.0f), \
+            LOG_CONTROL("lk", "Lookahead", "Lookahead", U_MSEC, limiter_metadata::LOOKAHEAD), \
+            LOG_CONTROL("at", "Attack time", "Att time", U_MSEC, limiter_metadata::ATTACK_TIME), \
+            LOG_CONTROL("rt", "Release time", "Rel time", U_MSEC, limiter_metadata::RELEASE_TIME), \
+            COMBO("ovs", "Oversampling", "Oversampling", limiter_metadata::OVS_DEFAULT, limiter_ovs_modes),           \
+            COMBO("dith", "Dithering", "Dithering", limiter_metadata::DITHER_DEFAULT, limiter_dither_modes),           \
+            SWITCH("pause", "Pause graph analysis", "Pause", 0.0f), \
+            TRIGGER("clear", "Clear graph analysis", "Clear")
 
         #define LIMIT_SHM_LINK_MONO \
             OPT_RETURN_MONO("link", "shml", "Side-chain shared memory link")
@@ -150,27 +150,27 @@ namespace lsp
 
         #define LIMIT_COMMON_MONO       \
             LIMIT_COMMON, \
-            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type)
+            COMBO("extsc", "Sidechain type", "SC type", 0.0f, limiter_sc_type)
 
         #define LIMIT_COMMON_STEREO     \
             LIMIT_COMMON, \
-            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type), \
-            LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
+            COMBO("extsc", "Sidechain type", "SC type", 0.0f, limiter_sc_type), \
+            LOG_CONTROL("slink", "Stereo linking", "Stereo link", U_PERCENT, limiter_metadata::LINKING)
 
         #define LIMIT_COMMON_SC_MONO    \
             LIMIT_COMMON, \
-            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type_for_sc)
+            COMBO("extsc", "Sidechain type", "SC type", 0.0f, limiter_sc_type_for_sc)
 
         #define LIMIT_COMMON_SC_STEREO  \
             LIMIT_COMMON, \
-            COMBO("extsc", "Sidechain type", 0.0f, limiter_sc_type_for_sc), \
-            LOG_CONTROL("slink", "Stereo linking", U_PERCENT, limiter_metadata::LINKING)
+            COMBO("extsc", "Sidechain type", "SC type", 0.0f, limiter_sc_type_for_sc), \
+            LOG_CONTROL("slink", "Stereo linking", "Stereo link", U_PERCENT, limiter_metadata::LINKING)
 
-        #define LIMIT_METERS(id, label) \
-            SWITCH("igv" id, "Input graph visibility" label, 1.0f), \
-            SWITCH("ogv" id, "Output graph visibility" label, 1.0f), \
-            SWITCH("scgv" id, "Sidechain graph visibility" label, 1.0f), \
-            SWITCH("grgv" id, "Gain graph visibility" label, 1.0f), \
+        #define LIMIT_METERS(id, label, alias) \
+            SWITCH("igv" id, "Input graph visibility" label, "Show In" alias, 1.0f), \
+            SWITCH("ogv" id, "Output graph visibility" label, "Show Out" alias, 1.0f), \
+            SWITCH("scgv" id, "Sidechain graph visibility" label, "Show SC" alias, 1.0f), \
+            SWITCH("grgv" id, "Gain graph visibility" label, "Show Gain" alias, 1.0f), \
             METER_OUT_GAIN("ilm" id, "Input level meter" label, GAIN_AMP_0_DB), \
             METER_OUT_GAIN("olm" id, "Output level meter" label, GAIN_AMP_0_DB), \
             METER_OUT_GAIN("sclm" id, "Sidechain level meter" label, GAIN_AMP_0_DB), \
@@ -180,8 +180,8 @@ namespace lsp
             MESH("scg" id, "Sidechain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE), \
             MESH("grg" id, "Gain graph" label, 2, limiter_metadata::HISTORY_MESH_SIZE + 4)
 
-        #define LIMIT_METERS_MONO       LIMIT_METERS("", "")
-        #define LIMIT_METERS_STEREO     LIMIT_METERS("_l", " Left"), LIMIT_METERS("_r", " Right")
+        #define LIMIT_METERS_MONO       LIMIT_METERS("", "", "")
+        #define LIMIT_METERS_STEREO     LIMIT_METERS("_l", " Left", " L"), LIMIT_METERS("_r", " Right", " R")
 
         static const port_t limiter_mono_ports[] =
         {
