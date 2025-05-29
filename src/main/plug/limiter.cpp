@@ -1170,6 +1170,7 @@ namespace lsp
                 v->write("pScToIn", sPremix.pScToIn);
                 v->write("pScToLink", sPremix.pScToLink);
             }
+            v->end_object();
 
             v->write("pBypass", pBypass);
             v->write("pInGain", pInGain);
