@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -62,6 +62,32 @@ namespace lsp
                     SCM_LINK,
                 };
 
+                typedef struct premix_t
+                {
+                    float                   fInToSc;            // Input -> Sidechain mix
+                    float                   fInToLink;          // Input -> Link mix
+                    float                   fLinkToIn;          // Link -> Input mix
+                    float                   fLinkToSc;          // Link -> Sidechain mix
+                    float                   fScToIn;            // Sidechain -> Input mix
+                    float                   fScToLink;          // Sidechain -> Link mix
+
+                    float                  *vIn[2];             // Input buffer
+                    float                  *vOut[2];            // Output buffer
+                    float                  *vSc[2];             // Sidechain buffer
+                    float                  *vLink[2];           // Link buffer
+
+                    float                  *vTmpIn[2];          // Replacement buffer for input
+                    float                  *vTmpLink[2];        // Replacement buffer for link
+                    float                  *vTmpSc[2];          // Replacement buffer for sidechain
+
+                    plug::IPort            *pInToSc;            // Input -> Sidechain mix
+                    plug::IPort            *pInToLink;          // Input -> Link mix
+                    plug::IPort            *pLinkToIn;          // Link -> Input mix
+                    plug::IPort            *pLinkToSc;          // Link -> Sidechain mix
+                    plug::IPort            *pScToIn;            // Sidechain -> Input mix
+                    plug::IPort            *pScToLink;          // Sidechain -> Link mix
+                } premix_t;
+
                 typedef struct channel_t
                 {
                     dspu::Bypass        sBypass;            // Bypass
@@ -73,9 +99,9 @@ namespace lsp
                     dspu::MeterGraph    sGraph[G_TOTAL];    // Input meter graph
                     dspu::Blink         sBlink;             // Gain blink
 
-                    const float        *vIn;                // Input data
-                    const float        *vSc;                // Sidechain data
-                    const float        *vShmIn;             // Shared memory input
+                    float              *vIn;                // Input data
+                    float              *vSc;                // Sidechain data
+                    float              *vShmIn;             // Shared memory input
                     float              *vOut;               // Output data
 
                     float              *vDataBuf;           // Audio data buffer (oversampled)
@@ -115,6 +141,7 @@ namespace lsp
                 bool                bUISync;        // Synchronize with UI
 
                 dspu::Dither        sDither;        // Dither
+                premix_t            sPremix;        // Premix
 
                 plug::IPort        *pBypass;        // Bypass port
                 plug::IPort        *pInGain;        // Input gain
@@ -148,6 +175,8 @@ namespace lsp
 
             protected:
                 uint32_t                    decode_sidechain_mode(uint32_t mode);
+                void                        update_premix();
+                void                        premix_channel(uint32_t channel, size_t count);
                 void                        sync_latency();
                 void                        do_destroy();
 

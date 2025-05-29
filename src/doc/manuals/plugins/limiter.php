@@ -64,6 +64,8 @@ words: the more work should be done, the more CPU resources will be used. Beware
 	<li>
 		<b>Bypass</b> - bypass switch, when turned on (led indicator is shining), the plugin bypasses signal.
 	</li>
+	<li><b>Pre-mix</b> - shows pre-mix control overlay.</li>
+	<li><b>ALR</b> - enables automatic level regulation.</li>
 	<li><b>Pause</b> - pauses any updates of the limiter graph.</li>
 	<li><b>Clear</b> - clears all graphs.</li>
 	<li><b>Mode</b> - the selected mode to use by limiter:</li>
@@ -144,3 +146,18 @@ words: the more work should be done, the more CPU resources will be used. Beware
 	<li><b>Input</b> - overall input signal gain adjustment.</li>
 	<li><b>Output</b> - overall output signal gain adjustment.</li>
 </ul>
+
+<p><b>Pre-mix control overlay:</b></p>
+<ul>
+	<?php if ($sc) { ?>
+	<li><b>In -> SC</b> - the amount of signal from input channel added to the Sidechain.</li>
+	<?php } ?>
+	<li><b>In -> Link</b> - the amount of signal from input channel added to the shared memory link.</li>
+	<?php if ($sc) { ?>
+	<li><b>SC -> In</b> - the amount of signal from sidechain input channel added to the input channel.</li>
+	<li><b>SC -> Link</b> - the amount of signal from sidechain input channel added to the shared memory link.</li>
+	<?php } ?>
+	<li><b>Link -> In</b> - the amount of signal from shared memory link added to the input channel.</li>
+	<li><b>Link -> SC</b> - the amount of signal from shared memory link added to the sidechain channel.</li>
+</ul>
+

@@ -122,6 +122,18 @@ namespace lsp
             { NULL, NULL }
         };
 
+        #define LIMIT_PREMIX \
+            SWITCH("showpmx", "Show pre-mix overlay", "Show premix bar", 0.0f), \
+            AMP_GAIN10("in2lk", "Input to Link mix", "In to Link mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("lk2in", "Link to Input mix", "Link to In mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("lk2sc", "Link to Sidechain mix", "Link to SC mix", GAIN_AMP_M_INF_DB)
+
+        #define LIMIT_SC_PREMIX \
+            LIMIT_PREMIX, \
+            AMP_GAIN10("in2sc", "Input to Sidechain mix", "In to SC mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("sc2in", "Sidechain to Input mix", "SC to In mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("sc2lk", "Sidechain to Link mix", "SC to Link mix", GAIN_AMP_M_INF_DB)
+
         #define LIMIT_COMMON    \
             BYPASS,             \
             IN_GAIN,            \
@@ -187,6 +199,7 @@ namespace lsp
         {
             PORTS_MONO_PLUGIN,
             LIMIT_SHM_LINK_MONO,
+            LIMIT_PREMIX,
             LIMIT_COMMON_MONO,
             LIMIT_METERS_MONO,
 
@@ -197,6 +210,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             LIMIT_SHM_LINK_STEREO,
+            LIMIT_PREMIX,
             LIMIT_COMMON_STEREO,
             LIMIT_METERS_STEREO,
 
@@ -208,6 +222,7 @@ namespace lsp
             PORTS_MONO_PLUGIN,
             PORTS_MONO_SIDECHAIN,
             LIMIT_SHM_LINK_MONO,
+            LIMIT_SC_PREMIX,
             LIMIT_COMMON_SC_MONO,
             LIMIT_METERS_MONO,
 
@@ -219,6 +234,7 @@ namespace lsp
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
             LIMIT_SHM_LINK_STEREO,
+            LIMIT_SC_PREMIX,
             LIMIT_COMMON_SC_STEREO,
             LIMIT_METERS_STEREO,
 
