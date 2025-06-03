@@ -54,7 +54,7 @@ words: the more work should be done, the more CPU resources will be used. Beware
 </p>
 <?php out_image('graph/limiter-envelope', 'Envelope forms of the patch') ?>
 <p>
-	On this image, sloping lines mean the transision part of the patch.
+	On this image, sloping lines mean the transition part of the patch.
 	The flat cap in the middle before the peak is a half of attack time, the flat cap in the middle after the peak is a half of release time.
 	Also it's obvious that different envelope forms differently affect dynamics of the signal.
 </p>
