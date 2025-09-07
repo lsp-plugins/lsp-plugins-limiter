@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.29 ===
-
+* Optimized code for updated implementation of dspu::MeterGraph.
 
 === 1.0.28 ===
 * Added audio pre-mixing controls.

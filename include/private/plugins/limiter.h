@@ -132,6 +132,7 @@ namespace lsp
                 bool                bScListen;      // Sidechain listen
                 channel_t          *vChannels;      // Audio channels
                 float              *vTime;          // Time points buffer
+                float              *vIDisplay;      // Buffer for inline display
                 uint32_t            nScMode;        // Sidechain mode
                 float               fInGain;        // Input gain
                 float               fOutGain;       // Output gain
