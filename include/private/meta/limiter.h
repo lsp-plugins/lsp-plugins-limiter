@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -101,6 +101,9 @@ namespace lsp
                 OVS_FULL_6X24BIT,
                 OVS_FULL_8X16BIT,
                 OVS_FULL_8X24BIT,
+
+                OVS_TRUE_PEAK_16BIT,
+                OVS_TRUE_PEAK_24BIT,
 
                 OVS_DEFAULT     = OVS_NONE
             };

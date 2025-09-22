@@ -74,6 +74,23 @@ namespace lsp
             }
 
             static plug::Factory factory(plugin_factory, plugins, 4);
+
+            typedef struct true_peak_mode_t
+            {
+                uint32_t            frequency;
+                dspu::over_mode_t   modes[2];
+            } true_peak_mode_t;
+
+            static const true_peak_mode_t true_peak_modes[] =
+            {
+                { 0,            { dspu::OM_LANCZOS_8X16BIT, dspu::OM_LANCZOS_8X24BIT}   },
+                { 22050,        { dspu::OM_LANCZOS_8X16BIT, dspu::OM_LANCZOS_8X24BIT}   },
+                { 29400,        { dspu::OM_LANCZOS_6X16BIT, dspu::OM_LANCZOS_6X24BIT}   },
+                { 44100,        { dspu::OM_LANCZOS_4X16BIT, dspu::OM_LANCZOS_4X24BIT}   },
+                { 58800,        { dspu::OM_LANCZOS_3X16BIT, dspu::OM_LANCZOS_3X24BIT}   },
+                { 88200,        { dspu::OM_LANCZOS_2X16BIT, dspu::OM_LANCZOS_2X24BIT}   },
+                { 176400,       { dspu::OM_NONE, dspu::OM_NONE}                         },
+            };
         } /* inline namespace */
 
         //-------------------------------------------------------------------------
@@ -407,6 +424,21 @@ namespace lsp
                 L_KEY(6X24BIT)
                 L_KEY(8X16BIT)
                 L_KEY(8X24BIT)
+
+                case meta::limiter_metadata::OVS_TRUE_PEAK_16BIT:
+                case meta::limiter_metadata::OVS_TRUE_PEAK_24BIT:
+                {
+                    const size_t index = (mode == meta::limiter_metadata::OVS_TRUE_PEAK_24BIT) ? 1: 0;
+                    const uint32_t srate = fSampleRate;
+                    size_t best = 0;
+
+                    for (size_t i=1; i<sizeof(true_peak_modes)/ sizeof(true_peak_mode_t); ++i)
+                    {
+                        if (true_peak_modes[i].frequency <= srate)
+                            best    = i;
+                    }
+                    return true_peak_modes[best].modes[index];
+                }
 
                 case meta::limiter_metadata::OVS_NONE:
                 default:

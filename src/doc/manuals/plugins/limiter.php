@@ -97,6 +97,8 @@ words: the more work should be done, the more CPU resources will be used. Beware
 		<li><b>Full 6x/24 bit</b> - 6x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
 		<li><b>Full 8x/16 bit</b> - 8x Lanczos oversampling of Sidechain signal and Input signal with 16-bit precision of output samples.</li>
 		<li><b>Full 8x/24 bit</b> - 8x Lanczos oversampling of Sidechain signal and Input signal with 24-bit precision of output samples.</li>
+		<li><b>True Peak/16 bit</b> - Sample-rate dependent Lanczos oversampling of Sidechain signal 16-bit precision of output samples for elimination of true peaks.</li>
+		<li><b>True Peak/32 bit</b> - Sample-rate dependent Lanczos oversampling of Sidechain signal 24-bit precision of output samples for elimination of true peaks.</li>
 	</ul>
 	<li><b>Dither</b> - allows to enable dithering for the specified sample bitness.</li>
 	<li><b>Link</b> - the name of the shared memory link to pass sidechain signal.</li>
