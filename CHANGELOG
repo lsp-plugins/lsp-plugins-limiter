@@ -5,6 +5,7 @@
 === 1.0.29 ===
 * Optimized code for updated implementation of dspu::MeterGraph.
 * Added support of TruePeak oversampling modes.
+* Updated build scripts and dependencies.
 
 === 1.0.28 ===
 * Added audio pre-mixing controls.
