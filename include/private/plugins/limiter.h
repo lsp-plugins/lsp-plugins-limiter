@@ -132,6 +132,7 @@ namespace lsp
                 bool                bScListen;      // Sidechain listen
                 channel_t          *vChannels;      // Audio channels
                 float              *vTime;          // Time points buffer
+                float              *vIDisplay;      // Buffer for inline display
                 uint32_t            nScMode;        // Sidechain mode
                 float               fInGain;        // Input gain
                 float               fOutGain;       // Output gain
@@ -168,12 +169,12 @@ namespace lsp
                 uint8_t            *pData;          // Allocated data
 
             protected:
-                static dspu::over_mode_t    get_oversampling_mode(size_t mode);
                 static bool                 get_filtering(size_t mode);
                 static dspu::limiter_mode_t get_limiter_mode(size_t mode);
                 static size_t               get_dithering(size_t mode);
 
             protected:
+                dspu::over_mode_t           get_oversampling_mode(size_t mode);
                 uint32_t                    decode_sidechain_mode(uint32_t mode);
                 void                        update_premix();
                 void                        premix_channel(uint32_t channel, size_t count);

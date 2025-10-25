@@ -29,13 +29,13 @@
 #include <lsp-plug.in/shared/debug.h>
 #include <lsp-plug.in/shared/id_colors.h>
 
-#define LIMIT_BUFSIZE           8192
-#define LIMIT_BUFMULTIPLE       16
-
 namespace lsp
 {
     namespace plugins
     {
+        static constexpr size_t LIMIT_BUFSIZE       = 8192;
+        static constexpr size_t LIMIT_BUFMULTIPLE   = 16;
+
         //-------------------------------------------------------------------------
         // Plugin factory
         inline namespace
@@ -74,6 +74,23 @@ namespace lsp
             }
 
             static plug::Factory factory(plugin_factory, plugins, 4);
+
+            typedef struct true_peak_mode_t
+            {
+                uint32_t            frequency;
+                dspu::over_mode_t   modes[2];
+            } true_peak_mode_t;
+
+            static const true_peak_mode_t true_peak_modes[] =
+            {
+                { 0,            { dspu::OM_LANCZOS_8X16BIT, dspu::OM_LANCZOS_8X24BIT}   },
+                { 22050,        { dspu::OM_LANCZOS_8X16BIT, dspu::OM_LANCZOS_8X24BIT}   },
+                { 29400,        { dspu::OM_LANCZOS_6X16BIT, dspu::OM_LANCZOS_6X24BIT}   },
+                { 44100,        { dspu::OM_LANCZOS_4X16BIT, dspu::OM_LANCZOS_4X24BIT}   },
+                { 58800,        { dspu::OM_LANCZOS_3X16BIT, dspu::OM_LANCZOS_3X24BIT}   },
+                { 88200,        { dspu::OM_LANCZOS_2X16BIT, dspu::OM_LANCZOS_2X24BIT}   },
+                { 176400,       { dspu::OM_NONE, dspu::OM_NONE}                         },
+            };
         } /* inline namespace */
 
         //-------------------------------------------------------------------------
@@ -86,6 +103,7 @@ namespace lsp
             bScListen       = false;
             vChannels       = NULL;
             vTime           = NULL;
+            vIDisplay       = NULL;
             nScMode         = SCM_INTERNAL;
             fInGain         = GAIN_AMP_0_DB;
             fOutGain        = GAIN_AMP_0_DB;
@@ -163,15 +181,17 @@ namespace lsp
             size_t c_data   = LIMIT_BUFSIZE * sizeof(float);
             size_t h_data   = meta::limiter_metadata::HISTORY_MESH_SIZE * sizeof(float);
             size_t allocate =
-                c_data * 4 * nChannels +
-                c_data * nChannels * 3 +
-                h_data;
+                c_data * 4 * nChannels +    // channel_t buffers
+                c_data * nChannels * 3 +    // sPremix
+                h_data +                    // vTimePoints
+                h_data;                     // vIDisplay
 
             uint8_t *ptr    = alloc_aligned<uint8_t>(pData, allocate, DEFAULT_ALIGN);
             if (ptr == NULL)
                 return;
 
             vTime           = advance_ptr_bytes<float>(ptr, h_data);
+            vIDisplay       = advance_ptr_bytes<float>(ptr, h_data);
 
             // Initialize pre-mix
             for (size_t i=0; i<nChannels; ++i)
@@ -376,11 +396,11 @@ namespace lsp
 
                 for (size_t j=0; j<G_TOTAL; ++j)
                 {
-                    c->sGraph[j].init(meta::limiter_metadata::HISTORY_MESH_SIZE, max_samples_per_dot);
+                    const float dfl = (j == G_GAIN) ? GAIN_AMP_0_DB : GAIN_AMP_M_INF_DB;
+                    c->sGraph[j].init(meta::limiter_metadata::HISTORY_MESH_SIZE, max_samples_per_dot, dfl);
                     c->sGraph[j].set_period(real_samples_per_dot);
                 }
 
-                c->sGraph[G_GAIN].fill(GAIN_AMP_0_DB);
                 c->sGraph[G_GAIN].set_method(dspu::MM_ABS_MINIMUM);
             }
         }
@@ -404,6 +424,21 @@ namespace lsp
                 L_KEY(6X24BIT)
                 L_KEY(8X16BIT)
                 L_KEY(8X24BIT)
+
+                case meta::limiter_metadata::OVS_TRUE_PEAK_16BIT:
+                case meta::limiter_metadata::OVS_TRUE_PEAK_24BIT:
+                {
+                    const size_t index = (mode == meta::limiter_metadata::OVS_TRUE_PEAK_24BIT) ? 1: 0;
+                    const uint32_t srate = fSampleRate;
+                    size_t best = 0;
+
+                    for (size_t i=1; i<sizeof(true_peak_modes)/ sizeof(true_peak_mode_t); ++i)
+                    {
+                        if (true_peak_modes[i].frequency <= srate)
+                            best    = i;
+                    }
+                    return true_peak_modes[best].modes[index];
+                }
 
                 case meta::limiter_metadata::OVS_NONE:
                 default:
@@ -912,7 +947,7 @@ namespace lsp
 
                         // Clear data if requested
                         if (bClear)
-                            dsp::fill_zero(c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
+                            c->sGraph[j].clear();
 
                         // Get mesh
                         plug::mesh_t *mesh    = c->pGraph[j]->buffer<plug::mesh_t>();
@@ -925,7 +960,7 @@ namespace lsp
                                 float *y = mesh->pvData[1];
 
                                 dsp::copy(&x[1], vTime, meta::limiter_metadata::HISTORY_MESH_SIZE);
-                                dsp::copy(&y[1], c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
+                                c->sGraph[j].read(&y[1], meta::limiter_metadata::HISTORY_MESH_SIZE);
 
                                 x[0] = x[1];
                                 y[0] = 0.0f;
@@ -941,7 +976,7 @@ namespace lsp
                                 float *y = mesh->pvData[1];
 
                                 dsp::copy(&x[2], vTime, meta::limiter_metadata::HISTORY_MESH_SIZE);
-                                dsp::copy(&y[2], c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
+                                c->sGraph[j].read(&y[2], meta::limiter_metadata::HISTORY_MESH_SIZE);
 
                                 x[0] = x[2] + 0.5f;
                                 x[1] = x[0];
@@ -960,7 +995,7 @@ namespace lsp
                             else
                             {
                                 dsp::copy(mesh->pvData[0], vTime, meta::limiter_metadata::HISTORY_MESH_SIZE);
-                                dsp::copy(mesh->pvData[1], c->sGraph[j].data(), meta::limiter_metadata::HISTORY_MESH_SIZE);
+                                c->sGraph[j].read(mesh->pvData[1], meta::limiter_metadata::HISTORY_MESH_SIZE);
                                 mesh->data(2, meta::limiter_metadata::HISTORY_MESH_SIZE);
                             }
                         }
@@ -1052,9 +1087,9 @@ namespace lsp
                         continue;
 
                     // Initialize values
-                    float *ft       = c->sGraph[j].data();
+                    c->sGraph[j].read(vIDisplay, meta::limiter_metadata::HISTORY_MESH_SIZE);
                     for (size_t k=0; k<width; ++k)
-                        b->v[1][k]      = ft[size_t(r*k)];
+                        b->v[1][k]      = vIDisplay[size_t(r*k)];
 
                     // Initialize coords
                     dsp::fill(b->v[2], width, width);
@@ -1137,6 +1172,7 @@ namespace lsp
             v->end_array();
 
             v->write("vTime", vTime);
+            v->write("vIDisplay", vIDisplay);
             v->write("nScMode", nScMode);
             v->write("fInGain", fInGain);
             v->write("fOutGain", fOutGain);

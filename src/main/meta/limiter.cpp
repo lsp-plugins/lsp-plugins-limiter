@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_LIMITER_VERSION_MAJOR       1
 #define LSP_PLUGINS_LIMITER_VERSION_MINOR       0
-#define LSP_PLUGINS_LIMITER_VERSION_MICRO       28
+#define LSP_PLUGINS_LIMITER_VERSION_MICRO       29
 
 #define LSP_PLUGINS_LIMITER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -89,6 +89,9 @@ namespace lsp
             { "Full x6/24 bit", "oversampler.full.6x24bit"  },
             { "Full x8/16 bit", "oversampler.full.8x16bit"  },
             { "Full x8/24 bit", "oversampler.full.8x24bit"  },
+
+            { "True Peak/16 bit", "oversampler.true_peak.16bit"  },
+            { "True Peak/24 bit", "oversampler.true_peak.24bit"  },
 
             { NULL, NULL }
         };
