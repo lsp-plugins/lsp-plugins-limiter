@@ -160,7 +160,8 @@ namespace lsp
                 plug::IPort        *pClear;         // Cleanup gain
                 plug::IPort        *pScMode;        // Sidechain mode
                 plug::IPort        *pScListen;      // Sidechain listen
-                plug::IPort        *pKnee;          // Limiter knee
+                plug::IPort        *pKneeLevel;     // Limiter knee level
+                plug::IPort        *pKneeSmooth;    // Limiter knee smooth
                 plug::IPort        *pBoost;         // Gain boost
                 plug::IPort        *pOversampling;  // Oversampling
                 plug::IPort        *pDithering;     // Dithering

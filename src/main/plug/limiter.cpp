@@ -154,7 +154,8 @@ namespace lsp
             pClear          = NULL;
             pScMode         = NULL;
             pScListen       = NULL;
-            pKnee           = NULL;
+            pKneeLevel      = NULL;
+            pKneeSmooth     = NULL;
             pBoost          = NULL;
             pOversampling   = NULL;
             pDithering      = NULL;
@@ -299,7 +300,8 @@ namespace lsp
             BIND_PORT(pAlrRelease);
             BIND_PORT(pMode);
             BIND_PORT(pThresh);
-            BIND_PORT(pKnee);
+            BIND_PORT(pKneeLevel);
+            BIND_PORT(pKneeSmooth);
             BIND_PORT(pBoost);
             BIND_PORT(pLookahead);
             BIND_PORT(pAttack);
@@ -583,7 +585,8 @@ namespace lsp
             float lk_ahead              = pLookahead->value();
             float attack                = pAttack->value();
             float release               = pRelease->value();
-            float knee                  = pKnee->value();
+            const float knee_level      = pKneeLevel->value();
+            const float knee_smooth     = dspu::db_to_gain(pKneeSmooth->value());
             bool alr_on                 = pAlrOn->value() >= 0.5f;
             float alr_attack            = pAlrAttack->value();
             float alr_release           = pAlrRelease->value();
@@ -635,7 +638,8 @@ namespace lsp
                 c->sLimit.set_threshold(thresh, !boost);
                 c->sLimit.set_attack(attack);
                 c->sLimit.set_release(release);
-                c->sLimit.set_knee(knee);
+                c->sLimit.set_knee(knee_level);
+                c->sLimit.set_alr_knee(knee_smooth);
                 c->sLimit.set_alr(alr_on);
                 c->sLimit.set_alr_attack(alr_attack);
                 c->sLimit.set_alr_release(alr_release);
@@ -1224,7 +1228,8 @@ namespace lsp
             v->write("pClear", pClear);
             v->write("pScMode", pScMode);
             v->write("pScListen", pScListen);
-            v->write("pKnee", pKnee);
+            v->write("pKneeLevel", pKneeLevel);
+            v->write("pKneeSmooth", pKneeSmooth);
             v->write("pBoost", pBoost);
             v->write("pOversampling", pOversampling);
             v->write("pDithering", pDithering);
