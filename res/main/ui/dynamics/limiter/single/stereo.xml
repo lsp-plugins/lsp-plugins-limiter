@@ -148,22 +148,25 @@
 		<hbox spacing="4" vreduce="true">
 			<!-- ALR -->
 			<group text="groups.alr">
-				<grid rows="3" cols="3">
+				<grid rows="3" cols="4">
 					<ui:with pad.h="6" fill="false" hexpand="true" vreduce="true">
 						<label text="labels.attack"/>
 						<label text="labels.release"/>
 						<label text="labels.knee"/>
+						<label text="labels.smooth"/>
 					</ui:with>
 
 					<ui:with pad.t="5" pad.b="4">
 						<knob id="alr_at" scolor="attack"/>
 						<knob id="alr_rt" scolor="release"/>
 						<knob id="knee"/>
+						<knob id="smooth"/>
 					</ui:with>
 
 					<value id="alr_at"/>
 					<value id="alr_rt"/>
 					<value id="knee"/>
+					<value id="smooth"/>
 				</grid>
 			</group>
 

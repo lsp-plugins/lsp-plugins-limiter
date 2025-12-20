@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_LIMITER_VERSION_MAJOR       1
 #define LSP_PLUGINS_LIMITER_VERSION_MINOR       0
-#define LSP_PLUGINS_LIMITER_VERSION_MICRO       30
+#define LSP_PLUGINS_LIMITER_VERSION_MICRO       31
 
 #define LSP_PLUGINS_LIMITER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -38,6 +38,10 @@ namespace lsp
 {
     namespace meta
     {
+        // Lisf of different revisions for adding controls
+        #define REV_0       0
+        #define REV_1       1
+
         //-------------------------------------------------------------------------
         // Limiter
         static const int plugin_classes[]           = { C_LIMITER, -1 };
@@ -147,7 +151,8 @@ namespace lsp
             LOG_CONTROL("alr_rt", "Automatic level regulation release time", "ALR rel time", U_MSEC, limiter_metadata::ALR_RELEASE_TIME), \
             COMBO("mode", "Operating mode", "Mode", limiter_metadata::LOM_DEFAULT, limiter_oper_modes), \
             LOG_CONTROL("th", "Threshold", "Threshold", U_GAIN_AMP, limiter_metadata::THRESHOLD), \
-            LOG_CONTROL("knee", "Knee", "Knee", U_GAIN_AMP, limiter_metadata::KNEE), \
+            LOG_CONTROL("knee", "Knee level", "Knee level", U_GAIN_AMP, limiter_metadata::KNEE_LEVEL), \
+            ADDON_CONTROL(REV_1, "smooth", "Knee smooth", "Knee smooth", U_DB, limiter_metadata::KNEE_SMOOTH), \
             SWITCH("boost", "Gain boost", "Gain boost", 1.0f), \
             LOG_CONTROL("lk", "Lookahead", "Lookahead", U_MSEC, limiter_metadata::LOOKAHEAD), \
             LOG_CONTROL("at", "Attack time", "Att time", U_MSEC, limiter_metadata::ATTACK_TIME), \

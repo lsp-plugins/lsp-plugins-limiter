@@ -122,6 +122,10 @@ words: the more work should be done, the more CPU resources will be used. Beware
 		two gain reduction stages. Raising the value delegates more work to the peak-cutting algorithm. Lowering the
 		value delegates more work to the ALR gain reduction algorithm.
 	</li>
+	<li>
+		<b>Smooth</b> - allows to control the smoothness of the ALR gain curve. The lower value is, the smoother the ALR
+		gain curve will be. The value of 0 dB means sharp knee.
+	</li>
 </ul>
 <p><b>'Limiter' section:</b></p>
 <ul>
