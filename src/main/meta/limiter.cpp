@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-limiter
  * Created on: 3 авг. 2021 г.
@@ -20,6 +20,7 @@
  */
 
 #include <lsp-plug.in/plug-fw/meta/ports.h>
+#include <lsp-plug.in/plug-fw/meta/registry.h>
 #include <lsp-plug.in/shared/meta/developers.h>
 #include <private/meta/limiter.h>
 
@@ -288,6 +289,7 @@ namespace lsp
             mono_plugin_port_groups,
             &limiter_bundle
         };
+        LSP_REGISTER_METADATA(limiter_mono);
 
         const meta::plugin_t  limiter_stereo =
         {
@@ -318,6 +320,7 @@ namespace lsp
             stereo_plugin_port_groups,
             &limiter_bundle
         };
+        LSP_REGISTER_METADATA(limiter_stereo);
 
         const meta::plugin_t  sc_limiter_mono =
         {
@@ -348,6 +351,7 @@ namespace lsp
             mono_plugin_sidechain_port_groups,
             &limiter_bundle
         };
+        LSP_REGISTER_METADATA(sc_limiter_mono);
 
         const meta::plugin_t  sc_limiter_stereo =
         {
@@ -378,5 +382,7 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &limiter_bundle
         };
+        LSP_REGISTER_METADATA(sc_limiter_stereo);
+
     } /* namespace meta */
 } /* namespace lsp */
