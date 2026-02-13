@@ -284,7 +284,7 @@ namespace lsp
             clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             limiter_mono_ports,
-            "dynamics/limiter/single/mono.xml",
+            "plugins/dynamics/limiter/single/mono.xml",
             NULL,
             mono_plugin_port_groups,
             &limiter_bundle
@@ -315,7 +315,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             limiter_stereo_ports,
-            "dynamics/limiter/single/stereo.xml",
+            "plugins/dynamics/limiter/single/stereo.xml",
             NULL,
             stereo_plugin_port_groups,
             &limiter_bundle
@@ -346,7 +346,7 @@ namespace lsp
             clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_limiter_mono_ports,
-            "dynamics/limiter/single/mono.xml",
+            "plugins/dynamics/limiter/single/mono.xml",
             NULL,
             mono_plugin_sidechain_port_groups,
             &limiter_bundle
@@ -377,7 +377,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_limiter_stereo_ports,
-            "dynamics/limiter/single/stereo.xml",
+            "plugins/dynamics/limiter/single/stereo.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
             &limiter_bundle
