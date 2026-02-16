@@ -287,7 +287,8 @@ namespace lsp
             "plugins/dynamics/limiter/single/mono.xml",
             NULL,
             mono_plugin_port_groups,
-            &limiter_bundle
+            &limiter_bundle,
+            3
         };
         LSP_REGISTER_METADATA(limiter_mono);
 
@@ -318,7 +319,8 @@ namespace lsp
             "plugins/dynamics/limiter/single/stereo.xml",
             NULL,
             stereo_plugin_port_groups,
-            &limiter_bundle
+            &limiter_bundle,
+            1
         };
         LSP_REGISTER_METADATA(limiter_stereo);
 
@@ -349,7 +351,8 @@ namespace lsp
             "plugins/dynamics/limiter/single/mono.xml",
             NULL,
             mono_plugin_sidechain_port_groups,
-            &limiter_bundle
+            &limiter_bundle,
+            4
         };
         LSP_REGISTER_METADATA(sc_limiter_mono);
 
@@ -380,7 +383,8 @@ namespace lsp
             "plugins/dynamics/limiter/single/stereo.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
-            &limiter_bundle
+            &limiter_bundle,
+            2
         };
         LSP_REGISTER_METADATA(sc_limiter_stereo);
 
