@@ -1,6 +1,6 @@
 <plugin resizable="true">
 	<ui:eval id="is_sidechain" value="(ex :sc) or (ex :sc_l) or (ex :sc_r)"/>
-	
+
 	<vbox>
 		<!-- Top part -->
 		<grid rows="3" cols="2" hspacing="4">
@@ -30,21 +30,17 @@
 					<marker v="0 db" ox="1" oy="0" color="graph_prim" width="2"/>
 
 					<!-- Meshes -->
-					<mesh id="ig_l" width="0" color="left_in" fcolor="left_in" fcolor.a="0.8" fill="true" visibility=":igv_l"/>
-					<mesh id="ig_r" width="0" color="right_in" fcolor="right_in" fcolor.a="0.8" fill="true" visibility=":igv_r"/>
-					<mesh id="og_l" width="2" color="left" visibility=":ogv_l"/>
-					<mesh id="og_r" width="2" color="right" visibility=":ogv_r"/>
-					<mesh id="scg_l" width="2" color="sidechain_1" visibility=":scgv_l"/>
-					<mesh id="scg_r" width="2" color="sidechain_2" visibility=":scgv_r"/>
-					<mesh id="grg_l" width="2" color="bright_blue" visibility=":grgv_l" fcolor="bright_blue" fcolor.a="0.8" fill="true"/>
-					<mesh id="grg_r" width="2" color="bright_blue" visibility=":grgv_r" fcolor="bright_blue" fcolor.a="0.8" fill="true"/>
+					<mesh id="ig_l" width="0" color="left_in" fcolor="left_in" fcolor.a="0.9" fill="true" visibility=":igv_l"/>
+					<mesh id="ig_r" width="0" color="right_in" fcolor="right_in" fcolor.a="0.9" fill="true" visibility=":igv_r"/>
+					<mesh id="og_l" width="1" color="left" color.a="0.5" visibility=":ogv_l"/>
+					<mesh id="og_r" width="1" color="right" color.a="0.5" visibility=":ogv_r"/>
+					<mesh id="scg_l" width="2" color="sidechain" color.a="0.3" visibility=":scgv_l"/>
+					<mesh id="scg_r" width="2" color="sidechain" color.a="0.3" visibility=":scgv_r"/>
+					<mesh id="grg_l" width="2" color="bright_blue" visibility=":grgv_l" fcolor="bright_blue" color.a="0.5" fcolor.a="0.9" fill="true"/>
+					<mesh id="grg_r" width="2" color="bright_blue" visibility=":grgv_r" fcolor="bright_blue" color.a="0.5" fcolor.a="0.9" fill="true"/>
 
 					<!-- Markers -->
-					<marker id="th" editable="true" width="3" pointer="vsize" color="threshold" hcolor="threshold" lcolor="threshold" hlcolor="threshold" ox="1" oy="0" lborder="50"
-					hlborder="50" color.a="0.1"
-					hcolor.a="0.0"
-					lcolor.a="0.8"
-					hlcolor.a="0.6"/>
+					<marker id="th" editable="true" width="3" pointer="vsize" color="threshold" hcolor="threshold" lcolor="threshold" hlcolor="threshold" ox="1" oy="0" lborder="50" hlborder="50" color.a="0.1" hcolor.a="0.0" lcolor.a="1.0" hlcolor.a="0.7"/>
 
 					<!-- Text -->
 					<ui:attributes x="4" halign="1" valign="-1">
@@ -119,7 +115,7 @@
 				<void bg.color="bg" vexpand="false" fill="false" pad.v="2"/>
 			</cell>
 			<cell cols="2">
-				<hbox spacing="4" bg.color="bg_schema" pad.h="6" >
+				<hbox spacing="4" bg.color="bg_schema" pad.h="6">
 
 					<label text="labels.mode:"/>
 					<combo id="mode" pad.r="12" pad.v="4"/>
@@ -127,9 +123,9 @@
 					<combo id="ovs" pad.r="12"/>
 					<label text="labels.dither:"/>
 					<combo id="dith" pad.r="12"/>
-					<void hexpand="true" />
+					<void hexpand="true"/>
 
-					<button ui:id="premix_trigger" id="showpmx" text="labels.premix" size="22" />
+					<button ui:id="premix_trigger" id="showpmx" text="labels.premix" size="22"/>
 					<button id="alr" height="22" width="48" text="labels.alr" ui:inject="Button_yellow"/>
 					<button id="pause" height="22" width="48" text="labels.pause" ui:inject="Button_green"/>
 					<button id="clear" height="22" width="48" text="labels.clear" ui:inject="Button_red" pad.r="2"/>
@@ -171,7 +167,7 @@
 			</group>
 
 			<!-- Limiter setup -->
-			<group text="groups.plug.limiter" ipadding="0" >
+			<group text="groups.plug.limiter" ipadding="0">
 				<grid rows="3" cols="10">
 					<label text="labels.sc.sc_preamp" pad.h="6" pad.t="6" fill="false" hexpand="true" vreduce="true"/>
 					<cell rows="3" hreduce="true" pad.h="2"><vsep/></cell>
@@ -188,7 +184,7 @@
 
 					<hbox fill="false">
 						<knob id="scp" pad.t="1"/>
-						<value id="scp" width.min="32" pad.l="4" />
+						<value id="scp" width.min="32" pad.l="4"/>
 					</hbox>
 
 					<knob id="lk" pad.t="5" pad.b="4" pad.h="6"/>
@@ -202,7 +198,7 @@
 						<knob id="slink" scolor="balance"/>
 					</ui:with>
 
-					<combo id="extsc" pad.h="6" height="18" />
+					<combo id="extsc" pad.h="6" height="18"/>
 
 					<value id="lk" pad.b="6" pad.h="6"/>
 					<button id="boost" pad.h="6" height="18" width="70" text="labels.boost_" ui:inject="Button_violet_8"/>
@@ -232,42 +228,42 @@
 			</group>
 		</hbox>
 	</vbox>
-	
+
 	<!-- Premix overlay -->
 	<overlay id="showpmx" trigger="premix_trigger" hpos="1" vpos="1" halign="-1" valign="1" ipadding.t="4">
 		<group text="groups.premix" vexpand="false" ipadding="0">
 			<grid rows="3" cols="${(:is_sidechain) ? 8 : 5}" spacing="0" bg.color="bg_schema" transpose="true">
 				<ui:if test=":is_sidechain">
-					<label text="labels.premix.in_to_sc" pad.h="6" pad.v="4" />
-					<knob id="in2sc" />
-					<value id="in2sc" pad.h="6" pad.v="4" />
+					<label text="labels.premix.in_to_sc" pad.h="6" pad.v="4"/>
+					<knob id="in2sc"/>
+					<value id="in2sc" pad.h="6" pad.v="4"/>
 				</ui:if>
-				
-				<label text="labels.premix.in_to_link" pad.h="6" pad.v="4" />
-				<knob id="in2lk" />
-				<value id="in2lk" />
-				
-				<cell rows="3"><vsep pad.h="2" bg.color="bg" reduce="true" /></cell>
-				
+
+				<label text="labels.premix.in_to_link" pad.h="6" pad.v="4"/>
+				<knob id="in2lk"/>
+				<value id="in2lk"/>
+
+				<cell rows="3"><vsep pad.h="2" bg.color="bg" reduce="true"/></cell>
+
 				<ui:if test=":is_sidechain">
-					<label text="labels.premix.sc_to_in" pad.h="6" pad.v="4" />
-					<knob id="sc2in" />
-					<value id="sc2in" pad.h="6" pad.v="4" />
-					
-					<label text="labels.premix.sc_to_link" pad.h="6" pad.v="4" />
-					<knob id="sc2lk" />
-					<value id="sc2lk" pad.h="6" pad.v="4" />
-					
-					<cell rows="3"><vsep pad.h="2" bg.color="bg" reduce="true" /></cell>
+					<label text="labels.premix.sc_to_in" pad.h="6" pad.v="4"/>
+					<knob id="sc2in"/>
+					<value id="sc2in" pad.h="6" pad.v="4"/>
+
+					<label text="labels.premix.sc_to_link" pad.h="6" pad.v="4"/>
+					<knob id="sc2lk"/>
+					<value id="sc2lk" pad.h="6" pad.v="4"/>
+
+					<cell rows="3"><vsep pad.h="2" bg.color="bg" reduce="true"/></cell>
 				</ui:if>
-				
-				<label text="labels.premix.link_to_in" pad.h="6" pad.v="4" />
-				<knob id="lk2in" />
-				<value id="lk2in" pad.h="6" pad.v="4" />
-				
-				<label text="labels.premix.link_to_sc" pad.h="6" pad.v="4" />
-				<knob id="lk2sc" />
-				<value id="lk2sc" pad.h="6" pad.v="4" />
+
+				<label text="labels.premix.link_to_in" pad.h="6" pad.v="4"/>
+				<knob id="lk2in"/>
+				<value id="lk2in" pad.h="6" pad.v="4"/>
+
+				<label text="labels.premix.link_to_sc" pad.h="6" pad.v="4"/>
+				<knob id="lk2sc"/>
+				<value id="lk2sc" pad.h="6" pad.v="4"/>
 			</grid>
 		</group>
 	</overlay>

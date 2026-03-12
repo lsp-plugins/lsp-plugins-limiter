@@ -1,7 +1,13 @@
 {
 	"limiter": {
-		"name": "Limiter",
-		"description": "This plugin implements a limiter with flexible configuration. In most cases\nit acts as a brick-wall limiter but there are several settings for which is\nacts as an compressor with extreme settings, so the output signal may exceed\nthe limiter's threshold. It prevents input signal from raising over the\nspecified Threshold."
+		"description": "This plugin implements a limiter with flexible configuration. In most cases\nit acts as a brick-wall limiter but there are several settings for which is\nacts as an compressor with extreme settings, so the output signal may exceed\nthe limiter's threshold. It prevents input signal from raising over the\nspecified Threshold.",
+		"name": "Limiter"
+	},
+	"launcher": {
+		"limiter_mono": "Mono",
+		"limiter_stereo": "Stereo",
+		"sc_limiter_mono": "SC Mono",
+		"sc_limiter_stereo": "SC Stereo"
 	}
 }
 
